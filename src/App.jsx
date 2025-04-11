@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "./components/header/header";
+import Header from "./components/Header/Header";
 import Spinner from "./components/Spinner/Spinner";
 import TechniqueCard from "./components/TechniqueCard/TechniqueCard";
 import Footer from "./components/Footer/Footer";
