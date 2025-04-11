@@ -39,7 +39,7 @@ const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
         onNext={handleNext}
         placeholder="Enter how you're feeling..."
         bubbleColorClasses="bg-purple-100 text-purple-800"
-        buttonTheme="purple"
+        buttonTheme="lime"
       />
     );
   };

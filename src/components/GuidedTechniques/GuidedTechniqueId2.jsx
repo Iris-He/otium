@@ -99,7 +99,7 @@ const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
         onNext={handleNext}
         placeholder={`${step.inputPrompt}...`}
         bubbleColorClasses="bg-blue-100 text-blue-800"
-        buttonTheme="blue"
+        buttonTheme="lime"
       />
     );
   };

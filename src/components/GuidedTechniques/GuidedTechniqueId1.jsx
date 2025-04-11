@@ -9,8 +9,8 @@ const BREATHING_EXERCISE = {
   title: "4-7-8 Breathing Exercise",
   instructions: [
     "Find a comfortable position",
-    "We'll guide you through the breathing pattern",
     "Inhale for 4 seconds, hold for 7, exhale for 8",
+    "Stop immediately if you feel dizzy or lightheaded",
   ],
   cycles: 3,
   summaryTitle: "Breathing Exercise Complete",

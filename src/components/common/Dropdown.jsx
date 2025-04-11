@@ -19,7 +19,7 @@ const Dropdown = ({
       <select
         value={value}
         onChange={handleChange}
-        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-400 text-sm appearance-none cursor-pointer"
+        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-gray-400 text-sm appearance-none cursor-pointer"
       >
         <option value="" disabled>
           {placeholder}

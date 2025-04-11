@@ -18,7 +18,7 @@ export const ItemInput = ({
         value={inputValue}
         onChange={onInputChange}
         placeholder={placeholder}
-        className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+        className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
       />
       <Button type="submit" disabled={!inputValue.trim()} variant={buttonTheme}>
         Add

@@ -14,7 +14,7 @@ const Spinner = ({ onSpin, rotationDegree, spinning, onSelectTechnique }) => {
       <div className="relative w-64 h-64 mb-8">
         {/* Wheel Background */}
         <div
-          className="absolute w-full h-full rounded-full bg-gradient-to-br from-green-200 to-green-50 shadow-md"
+          className="absolute w-full h-full rounded-full bg-gradient-to-br from-yellow-200 to-yellow-50 shadow-md"
           style={{
             transform: `rotate(${rotationDegree}deg)`,
             transition: spinning
@@ -30,7 +30,7 @@ const Spinner = ({ onSpin, rotationDegree, spinning, onSelectTechnique }) => {
             return (
               <div
                 key={technique.id}
-                className="absolute w-2 h-2 rounded-full bg-green-800 opacity-60 top-1/2 left-1/2"
+                className="absolute w-2 h-2 rounded-full bg-yellow-600 opacity-60 top-1/2 left-1/2"
                 style={{
                   transform: `rotate(${rotation}deg) translate(120px, 0)`,
                 }}

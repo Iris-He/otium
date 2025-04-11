@@ -129,7 +129,7 @@ const Auth = ({ onProceedAsGuest, onSignIn }) => {
             value={formData.email}
             onChange={handleInputChange}
             placeholder="Email"
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
             required
             autoComplete="username"
           />
@@ -158,7 +158,7 @@ const Auth = ({ onProceedAsGuest, onSignIn }) => {
             value={formData.password}
             onChange={handleInputChange}
             placeholder="Password"
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
             required
             autoComplete={isSignUp ? "new-password" : "current-password"}
           />
@@ -176,7 +176,7 @@ const Auth = ({ onProceedAsGuest, onSignIn }) => {
               value={formData.confirmPassword}
               onChange={handleInputChange}
               placeholder="Confirm Password"
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
               required
               autoComplete="new-password"
             />
@@ -197,7 +197,7 @@ const Auth = ({ onProceedAsGuest, onSignIn }) => {
       <div className="mt-4 text-center">
         <button
           onClick={() => setIsSignUp(!isSignUp)}
-          className="text-green-600 hover:text-green-500 text-sm"
+          className="text-yellow-600 hover:text-yellow-500 text-sm"
         >
           {isSignUp
             ? "Already have an account? Sign in"

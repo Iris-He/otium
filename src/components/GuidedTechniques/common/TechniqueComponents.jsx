@@ -14,14 +14,18 @@ export const InputFields = ({ step, inputs, onInputChange }) => {
         placeholder={`${step.inputPrompt} ${index + 1}${
           step.inputSuffix || ""
         }`}
-        className="w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+        className="w-full p-2 mb-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
       />
     ));
 };
 
 export const CompletionButtons = ({ onReset, onReturnToSpinner }) => (
-  <div className="flex justify-center gap-4 mt-6 sticky bottom-0 bg-white py-4">
-    <Button variant="secondary" onClick={onReturnToSpinner}>
+  <div className="flex justify-center gap-3 sm:gap-4 mt-4 sm:mt-6 sticky bottom-0 bg-white py-3 sm:py-4">
+    <Button
+      variant="secondary"
+      onClick={onReturnToSpinner}
+      className="text-xs sm:text-sm"
+    >
       Return to Spinner
     </Button>
   </div>
@@ -29,7 +33,7 @@ export const CompletionButtons = ({ onReset, onReturnToSpinner }) => (
 
 export const StepProgress = ({ currentStep, totalSteps }) =>
   totalSteps > 1 && (
-    <p className="text-gray-500">
+    <p className="text-xs sm:text-sm text-gray-500">
       Step {currentStep + 1} of {totalSteps}
     </p>
   );

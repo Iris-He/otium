@@ -37,7 +37,7 @@ const TechniqueCard = ({
 
         <div className="flex flex-col gap-3 justify-center mt-auto">
           {hasGuidedComponent && (
-            <Button variant="blue" onClick={() => setShowGuided(true)}>
+            <Button variant="lime" onClick={() => setShowGuided(true)}>
               Try It Now
             </Button>
           )}
