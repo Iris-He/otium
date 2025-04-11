@@ -11,7 +11,7 @@ const STEPS = [
     inputPrompt: "Object",
     inputSuffix: " and its unique qualities... (optional)",
     instructions: [
-      "For each object, describe its shade and texture",
+      "Write down 5 objects of the same color, noticing their shade and texture",
       "Add items one at a time",
       "Click Complete when you're done",
     ],
