@@ -1,9 +1,17 @@
 import { createClient } from "@supabase/supabase-js";
 
+if (!import.meta.env.VITE_SUPABASE_URL) {
+  throw new Error("VITE_SUPABASE_URL environment variable is not set");
+}
+
+if (!import.meta.env.VITE_SUPABASE_ANON_KEY) {
+  throw new Error("VITE_SUPABASE_ANON_KEY environment variable is not set");
+}
+
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Favorite techniques functions
 export const saveFavoriteTechnique = async (
@@ -183,7 +191,7 @@ function calculateAverageRating(usageData) {
   if (ratingsData.length === 0) return 0;
 
   const sum = ratingsData.reduce((acc, item) => acc + item.rating, 0);
-  return (sum / ratingsData.length).toFixed(1);
+  return parseFloat((sum / ratingsData.length).toFixed(1));
 }
 
 function findTopRatedTechnique(usageData) {
