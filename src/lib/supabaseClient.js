@@ -1,15 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
 
-if (!import.meta.env.VITE_SUPABASE_URL) {
-  throw new Error("VITE_SUPABASE_URL environment variable is not set");
-}
-
-if (!import.meta.env.VITE_SUPABASE_ANON_KEY) {
-  throw new Error("VITE_SUPABASE_ANON_KEY environment variable is not set");
-}
-
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error("Environment variables:", {
+    VITE_SUPABASE_URL: supabaseUrl,
+    VITE_SUPABASE_ANON_KEY: supabaseAnonKey,
+  });
+  throw new Error("Missing Supabase environment variables");
+}
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 

@@ -15,9 +15,11 @@ const Header = ({ onSignOut, onViewInsights }) => {
   return (
     <header className="mb-8">
       <div className="relative flex justify-center items-center mb-4">
-        <span className="absolute left-0 px-4 py-2 text-sm text-gray-700">
-          Hello, {displayName}
-        </span>
+        {user && (
+          <span className="absolute left-0 px-4 py-2 text-sm text-gray-700">
+            Hello, {displayName}
+          </span>
+        )}
         <h1 className="font-serif text-4xl text-gray-800">Lemonaid</h1>
         {showSignOut && (
           <div className="absolute right-0 flex space-x-2">
