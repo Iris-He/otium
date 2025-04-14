@@ -139,7 +139,7 @@ const BaseTechnique = ({
             variant="lime"
             className="w-full"
           >
-            Continue to Feedback
+            Continue
           </Button>
         ) : (
           <>

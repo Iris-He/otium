@@ -3,7 +3,7 @@ import BaseTechnique from "./common/BaseTechnique";
 import { useInputCollection } from "../../hooks/useInputCollection";
 import InputCollectionProgress from "./common/InputCollectionProgress";
 import TechniqueSummary from "./common/TechniqueSummary";
-import { useAuthContext } from "../../contexts/AuthContext";
+// import { useAuthContext } from "../../contexts/AuthContext";
 
 const GuidedTechnique = ({
   technique,
