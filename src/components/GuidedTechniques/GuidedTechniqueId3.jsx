@@ -19,7 +19,12 @@ const STEPS = [
   },
 ];
 
-const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
+const GuidedTechnique = ({
+  technique,
+  onClose,
+  onReturnToSpinner,
+  onFeedbackSubmit,
+}) => {
   if (technique.id !== 3) return null;
 
   const {
@@ -70,6 +75,7 @@ const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
       steps={STEPS}
       onClose={onClose}
       onReturnToSpinner={onReturnToSpinner}
+      onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
       renderCustomSummary={renderCustomSummary}
     />

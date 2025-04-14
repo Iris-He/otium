@@ -4,7 +4,12 @@ import { useInputCollection } from "../../hooks/useInputCollection";
 import InputCollectionProgress from "./common/InputCollectionProgress";
 import TechniqueSummary from "./common/TechniqueSummary";
 
-const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
+const GuidedTechnique = ({
+  technique,
+  onClose,
+  onReturnToSpinner,
+  onFeedbackSubmit,
+}) => {
   if (technique.id !== 4) return null;
 
   const {
@@ -63,6 +68,7 @@ const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
       ]}
       onClose={onClose}
       onReturnToSpinner={onReturnToSpinner}
+      onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
       renderCustomSummary={renderCustomSummary}
     />

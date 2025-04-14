@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const Dropdown = ({
   options,
+  groupedOptions,
   onChange,
   placeholder = "Select an option",
   className = "",
@@ -14,6 +15,20 @@ const Dropdown = ({
     onChange(selectedValue);
   };
 
+  // If groupedOptions is null or undefined, show loading state
+  if (groupedOptions === null) {
+    return (
+      <div className={`relative ${className}`}>
+        <select
+          disabled
+          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-gray-400 text-sm appearance-none cursor-not-allowed"
+        >
+          <option>Loading...</option>
+        </select>
+      </div>
+    );
+  }
+
   return (
     <div className={`relative ${className}`}>
       <select
@@ -24,11 +39,35 @@ const Dropdown = ({
         <option value="" disabled>
           {placeholder}
         </option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+
+        {groupedOptions ? (
+          <>
+            {groupedOptions.favorites?.length > 0 && (
+              <optgroup label="Favorites">
+                {groupedOptions.favorites.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </optgroup>
+            )}
+            {groupedOptions.all?.length > 0 && (
+              <optgroup label="All Techniques">
+                {groupedOptions.all.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </optgroup>
+            )}
+          </>
+        ) : (
+          options?.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))
+        )}
       </select>
       <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
         <svg

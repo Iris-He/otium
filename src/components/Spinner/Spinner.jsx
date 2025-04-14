@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useAuthContext } from "../../contexts/AuthContext";
 import groundingTechniques from "../../data/groundingTechniques";
 import Dropdown from "../common/Dropdown";
+import { getFavoriteTechniques } from "../../lib/supabaseClient";
 
 const Spinner = ({ onSpin, rotationDegree, spinning, onSelectTechnique }) => {
-  // Format techniques for dropdown
-  const techniqueOptions = groundingTechniques.map((technique) => ({
-    value: technique.id.toString(),
-    label: technique.title,
-  }));
+  const { user } = useAuthContext();
+  const [groupedTechniques, setGroupedTechniques] = useState(null);
+
+  useEffect(() => {
+    const loadTechniques = async () => {
+      if (user && !user.isGuest) {
+        const favorites = await getFavoriteTechniques(user.id);
+
+        const favoritesOptions = favorites.map((fav) => ({
+          value: fav.technique_id.toString(),
+          label: fav.technique_name,
+        }));
+
+        const allOptions = groundingTechniques.map((technique) => ({
+          value: technique.id.toString(),
+          label: technique.title,
+        }));
+
+        setGroupedTechniques({
+          favorites: favoritesOptions,
+          all: allOptions,
+        });
+      }
+    };
+
+    loadTechniques();
+  }, [user]);
 
   return (
     <div className="flex flex-col items-center">
@@ -30,9 +54,13 @@ const Spinner = ({ onSpin, rotationDegree, spinning, onSelectTechnique }) => {
             return (
               <div
                 key={technique.id}
-                className="absolute w-2 h-2 rounded-full bg-yellow-600 opacity-60 top-1/2 left-1/2"
+                className="absolute w-2 h-2 rounded-full bg-yellow-400 opacity-60"
                 style={{
-                  transform: `rotate(${rotation}deg) translate(120px, 0)`,
+                  top: "50%",
+                  left: "50%",
+                  transform: `rotate(${rotation}deg) translateX(120px) translateY(-50%)`,
+                  marginLeft: "-4px", // Half of the width to center
+                  marginTop: "-4px", // Half of the height to center
                 }}
               />
             );
@@ -52,17 +80,19 @@ const Spinner = ({ onSpin, rotationDegree, spinning, onSelectTechnique }) => {
         <div className="absolute top-0 left-1/2 -ml-2 w-4 h-8 bg-orange-500 rounded-b-full" />
       </div>
 
-      {/* Technique Selector */}
-      <div className="w-64 mt-4 mb-8">
-        <p className="text-m text-gray-400 mb-2 text-center">
-          Or directly choose your favorite:
-        </p>
-        <Dropdown
-          options={techniqueOptions}
-          onChange={onSelectTechnique}
-          placeholder="Choose a technique"
-        />
-      </div>
+      {/* Technique Selector - only show for authenticated users */}
+      {user && !user.isGuest && (
+        <div className="w-64 mb-8">
+          <p className="text-sm text-gray-500 mb-2 text-center">
+            Or choose a specific technique:
+          </p>
+          <Dropdown
+            groupedOptions={groupedTechniques}
+            onChange={onSelectTechnique}
+            placeholder="Choose a technique"
+          />
+        </div>
+      )}
     </div>
   );
 };

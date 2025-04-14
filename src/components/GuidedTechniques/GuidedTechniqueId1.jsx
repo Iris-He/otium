@@ -16,7 +16,12 @@ const BREATHING_EXERCISE = {
   summaryTitle: "Breathing Exercise Complete",
 };
 
-const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
+const GuidedTechnique = ({
+  technique,
+  onClose,
+  onReturnToSpinner,
+  onFeedbackSubmit,
+}) => {
   if (technique.id !== 1) return null;
 
   const renderCustomProgress = ({ handleNext }) => (
@@ -56,6 +61,7 @@ const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
       steps={[BREATHING_EXERCISE]}
       onClose={onClose}
       onReturnToSpinner={onReturnToSpinner}
+      onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
       renderCustomSummary={renderCustomSummary}
     />

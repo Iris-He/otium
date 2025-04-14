@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../../common/Button";
+import { useAuthContext } from "../../../contexts/AuthContext";
 
 export const InputFields = ({ step, inputs, onInputChange }) => {
   const currentInputs = inputs || {};
@@ -19,17 +20,24 @@ export const InputFields = ({ step, inputs, onInputChange }) => {
     ));
 };
 
-export const CompletionButtons = ({ onReset, onReturnToSpinner }) => (
-  <div className="flex justify-center gap-3 sm:gap-4 mt-4 sm:mt-6 sticky bottom-0 bg-white py-3 sm:py-4">
-    <Button
-      variant="secondary"
-      onClick={onReturnToSpinner}
-      className="text-xs sm:text-sm"
-    >
-      Return to Spinner
-    </Button>
-  </div>
-);
+export const CompletionButtons = ({ onReset, onReturnToSpinner }) => {
+  const { user } = useAuthContext();
+  const showReturnButton = !user || user.isGuest;
+
+  if (!showReturnButton) return null;
+
+  return (
+    <div className="flex justify-center gap-3 sm:gap-4 mt-4 sm:mt-6 sticky bottom-0 bg-white py-3 sm:py-4">
+      <Button
+        variant="secondary"
+        onClick={onReturnToSpinner}
+        className="text-xs sm:text-sm"
+      >
+        Return to Spinner
+      </Button>
+    </div>
+  );
+};
 
 export const StepProgress = ({ currentStep, totalSteps }) =>
   totalSteps > 1 && (

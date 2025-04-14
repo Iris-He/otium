@@ -62,7 +62,12 @@ const STEPS = [
   },
 ];
 
-const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
+const GuidedTechnique = ({
+  technique,
+  onClose,
+  onReturnToSpinner,
+  onFeedbackSubmit,
+}) => {
   const {
     input,
     handleSubmit,
@@ -110,6 +115,7 @@ const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
       steps={STEPS}
       onClose={onClose}
       onReturnToSpinner={onReturnToSpinner}
+      onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
     />
   );

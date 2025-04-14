@@ -6,7 +6,12 @@ import { ReflectionStage } from "./TimerStages/ReflectionStage";
 import { useGuidedTimer } from "../../hooks/useGuidedTimer";
 import TechniqueSummary from "./common/TechniqueSummary";
 
-const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
+const GuidedTechnique = ({
+  technique,
+  onClose,
+  onReturnToSpinner,
+  onFeedbackSubmit,
+}) => {
   const {
     stage,
     totalSeconds,
@@ -65,6 +70,7 @@ const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
       ]}
       onClose={onClose}
       onReturnToSpinner={onReturnToSpinner}
+      onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
       renderCustomSummary={renderCustomSummary}
     />

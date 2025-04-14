@@ -60,6 +60,18 @@ const groundingTechniques = [
   //   description:
   //     "Form a fist and squeeze tightly for 5 seconds, then release completely. Repeat twice more.",
   // },
+  // {
+  //   id: 11,
+  //   title: "Mindful Doodling",
+  //   description:
+  //     "Grab paper and a pen. Draw simple shapes, lines or patterns without planning. Focus completely on the motion and marks you're making."
+  // },
+  // {
+  //   id: 12,
+  //   title: "Hand Tracing",
+  //   description:
+  //     "Slowly trace around your hand with a finger from the opposite hand, breathing in when tracing up, out when tracing down."
+  // },
 ];
 
 export default groundingTechniques;

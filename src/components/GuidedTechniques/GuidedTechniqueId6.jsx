@@ -3,8 +3,14 @@ import BaseTechnique from "./common/BaseTechnique";
 import { useInputCollection } from "../../hooks/useInputCollection";
 import InputCollectionProgress from "./common/InputCollectionProgress";
 import TechniqueSummary from "./common/TechniqueSummary";
+import { useAuthContext } from "../../contexts/AuthContext";
 
-const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
+const GuidedTechnique = ({
+  technique,
+  onClose,
+  onReturnToSpinner,
+  onFeedbackSubmit,
+}) => {
   if (technique.id !== 6) return null;
 
   const {
@@ -44,15 +50,14 @@ const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
     );
   };
 
-  const renderCustomSummary = () => (
+  const renderCustomSummary = ({ resetForm }) => (
     <TechniqueSummary
       title="Thank you for being honest with your emotions"
       description={[
         "Acknowledging our feelings without judgment is an important step in emotional awareness",
         "Remember you can return to this exercise whenever you need to check in with yourself",
       ]}
-      onReset={() => onReturnToSpinner()}
-      onReturnToSpinner={onReturnToSpinner}
+      onReset={resetForm}
     />
   );
 
@@ -68,6 +73,7 @@ const GuidedTechnique = ({ technique, onClose, onReturnToSpinner }) => {
       ]}
       onClose={onClose}
       onReturnToSpinner={onReturnToSpinner}
+      onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
       renderCustomSummary={renderCustomSummary}
     />
