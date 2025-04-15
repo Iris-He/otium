@@ -33,7 +33,6 @@ const TechniqueCard = ({
     console.log("TechniqueCard - Received feedback:", feedback);
 
     if (onFeedbackSubmit) {
-      // Preserve all original feedback data and ensure techniqueName is set
       const enrichedFeedback = {
         ...feedback,
         techniqueName: feedback.techniqueName || technique.title,
@@ -47,27 +46,33 @@ const TechniqueCard = ({
     }
   };
 
+  const handleReturnToSpinner = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setShowGuided(false); // Reset guided state
+    onReturnToSpinner(); // Call parent handler which includes dropdown reset
+  };
+
   if (!technique) return null;
 
   const GuidedTechnique = guidedTechniqueComponents[technique.id];
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center ${
+      className={`fixed inset-0 flex items-center justify-center bg-transparent ${
         visible ? "block" : "hidden"
       }`}
     >
       {showGuided && GuidedTechnique && (
         <Suspense fallback={<div className="text-center">Loading...</div>}>
-          <div className="absolute inset-x-0 top-20 bottom-16 z-20 bg-white bg-opacity-95 rounded-lg mx-4 flex items-center justify-center">
+          <div className="absolute inset-x-0 top-20 bottom-16 z-20 bg-transparent rounded-lg mx-4 flex items-center justify-center">
             <div className="w-full max-w-2xl">
               <GuidedTechnique
                 technique={technique}
                 onClose={() => setShowGuided(false)}
-                onReturnToSpinner={() => {
-                  setShowGuided(false);
-                  onReturnToSpinner();
-                }}
+                onReturnToSpinner={handleReturnToSpinner}
                 onFeedbackSubmit={handleFeedbackSubmit}
               />
             </div>
@@ -75,7 +80,7 @@ const TechniqueCard = ({
         </Suspense>
       )}
       <div
-        className={`relative w-full max-w-xl bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between z-10 transition-all duration-400 ease-in-out m-4
+        className={`relative w-full max-w-xl bg-white bg-opacity-65 rounded-xl shadow-lg p-6 flex flex-col justify-between z-10 transition-all duration-400 ease-in-out m-4
           ${
             !showGuided && visible
               ? "opacity-100 scale-100"
@@ -110,14 +115,7 @@ const TechniqueCard = ({
             >
               New Technique
             </Button>
-            <Button
-              variant="secondary"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onReturnToSpinner();
-              }}
-            >
+            <Button variant="secondary" onClick={handleReturnToSpinner}>
               Return to Spinner
             </Button>
           </div>

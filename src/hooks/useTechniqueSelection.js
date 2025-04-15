@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import groundingTechniques from '../data/groundingTechniques';
+import { useState } from "react";
+import groundingTechniques from "../data/groundingTechniques";
 
 export const useTechniqueSelection = () => {
   const [spinning, setSpinning] = useState(false);
@@ -7,6 +7,7 @@ export const useTechniqueSelection = () => {
   const [rotationDegree, setRotationDegree] = useState(0);
   const [showCard, setShowCard] = useState(false);
   const [recentTechniques, setRecentTechniques] = useState([]); // Track recent techniques
+  const [dropdownValue, setDropdownValue] = useState(""); // Add dropdown state here
 
   const getRandomTechnique = () => {
     const availableTechniques = groundingTechniques.filter(
@@ -37,6 +38,7 @@ export const useTechniqueSelection = () => {
 
     setShowCard(false);
     setSpinning(true);
+    setSelectedTechnique(null); // Clear current technique
 
     // Random rotation between 1080 and 1800 degrees (3-5 full spins)
     const spinDegree = 1080 + Math.floor(Math.random() * 720);
@@ -46,8 +48,16 @@ export const useTechniqueSelection = () => {
 
     // After animation completes, show the selected technique
     setTimeout(() => {
+      const technique = getRandomTechnique();
       setSpinning(false);
-      setSelectedTechnique(getRandomTechnique());
+      setSelectedTechnique(technique);
+
+      // Update recent techniques
+      setRecentTechniques((prev) => {
+        const updated = [technique.id, ...prev];
+        return updated.slice(0, 3);
+      });
+
       setTimeout(() => {
         setShowCard(true);
       }, 300);
@@ -75,6 +85,9 @@ export const useTechniqueSelection = () => {
     setShowCard(false);
     setSpinning(false);
     setSelectedTechnique(null);
+    setDropdownValue(""); // Reset dropdown
+    // Force a small rotation to trigger the spinning effect reset
+    setRotationDegree((prev) => prev + 1);
   };
 
   // Handle direct technique selection from dropdown
@@ -89,6 +102,13 @@ export const useTechniqueSelection = () => {
     if (technique) {
       setShowCard(false);
       setSelectedTechnique(technique);
+      setDropdownValue(""); // Reset dropdown
+      // Update recent techniques
+      setRecentTechniques((prev) => {
+        const updated = [technique.id, ...prev];
+        return updated.slice(0, 3);
+      });
+
       setTimeout(() => {
         setShowCard(true);
       }, 300);
@@ -103,6 +123,8 @@ export const useTechniqueSelection = () => {
     handleSpin,
     handleNewTechnique,
     handleReturnToSpinner,
-    handleSelectTechnique
+    handleSelectTechnique,
+    dropdownValue,
+    setDropdownValue,
   };
 };

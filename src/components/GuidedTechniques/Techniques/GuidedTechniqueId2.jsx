@@ -3,6 +3,7 @@ import BaseTechnique from "../common/BaseTechnique";
 import { useInputCollection } from "../../../hooks/useInputCollection";
 import InputCollectionProgress from "../common/InputCollectionProgress";
 import TechniqueSummary from "../common/TechniqueSummary";
+import BackgroundWithLemons from "../../common/BackgroundWithLemons";
 
 const STEPS = [
   {
@@ -83,30 +84,34 @@ const GuidedTechnique = ({
     };
 
     return (
-      <InputCollectionProgress
-        title={`Try to name ${step.count} ${step.prompt}`}
-        description={step.instructions}
-        items={currentItems}
-        input={input}
-        onInputChange={handleInputChange}
-        onSubmit={onSubmit}
-        onNext={handleNext}
-        placeholder={`${step.inputPrompt}...`}
-        bubbleColorClasses="bg-blue-100 text-blue-800"
-        buttonTheme="lime"
-      />
+      <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+        <InputCollectionProgress
+          title={`Try to name ${step.count} ${step.prompt}`}
+          description={step.instructions}
+          items={currentItems}
+          input={input}
+          onInputChange={handleInputChange}
+          onSubmit={onSubmit}
+          onNext={handleNext}
+          placeholder={`${step.inputPrompt}...`}
+          bubbleColorClasses="bg-blue-100 text-blue-800"
+          buttonTheme="lime"
+        />
+      </BackgroundWithLemons>
     );
   };
 
   const renderCustomSummary = ({ resetForm }) => (
-    <TechniqueSummary
-      title="Great job completing the 5-4-3-2-1 exercise!"
-      description="Using your senses to ground yourself can help bring you back to the present moment."
-      onReset={resetForm}
-      onReturnToSpinner={onReturnToSpinner}
-      showFeedbackOption={true}
-      onShowFeedback={() => setShowFeedback(true)}
-    />
+    <BackgroundWithLemons className="backdrop-blur-md rounded-lg p-6">
+      <TechniqueSummary
+        title="Great job completing the 5-4-3-2-1 exercise!"
+        description="Using your senses to ground yourself can help bring you back to the present moment."
+        onReset={resetForm}
+        onReturnToSpinner={onReturnToSpinner}
+        showFeedbackOption={true}
+        onShowFeedback={() => setShowFeedback(true)}
+      />
+    </BackgroundWithLemons>
   );
 
   return (
@@ -120,6 +125,7 @@ const GuidedTechnique = ({
       renderCustomSummary={renderCustomSummary}
       showFeedback={showFeedback}
       setShowFeedback={setShowFeedback}
+      className="bg-transparent" // Add this to override any background
     />
   );
 };

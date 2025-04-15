@@ -11,7 +11,7 @@ const TechniqueSummary = ({
   const descriptions = Array.isArray(description) ? description : [description];
 
   return (
-    <div className="flex flex-col items-center justify-center text-center space-y-4">
+    <div className="flex flex-col items-center justify-center text-center space-y-4 bg-transparent">
       <h2 className="text-2xl font-serif text-gray-800">{title}</h2>
       <div className="space-y-2">
         {descriptions.map((desc, index) => (

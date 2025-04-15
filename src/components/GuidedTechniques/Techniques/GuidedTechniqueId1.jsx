@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BaseTechnique from "../common/BaseTechnique";
 import { BreathingAnimation } from "../common/BreathingAnimation";
 import TechniqueSummary from "../common/TechniqueSummary";
+import BackgroundWithLemons from "../../common/BackgroundWithLemons";
 
 const BREATHING_EXERCISE = {
   count: 1,
@@ -27,7 +28,7 @@ const GuidedTechnique = ({
   if (technique.id !== 1) return null;
 
   const renderCustomProgress = ({ handleNext }) => (
-    <div className="space-y-6">
+    <BackgroundWithLemons className="space-y-6">
       <div className="text-center space-y-2">
         <h3 className="text-xl font-serif text-gray-800">
           {BREATHING_EXERCISE.title}
@@ -42,7 +43,7 @@ const GuidedTechnique = ({
         cycles={BREATHING_EXERCISE.cycles}
         onComplete={handleNext}
       />
-    </div>
+    </BackgroundWithLemons>
   );
 
   const renderCustomSummary = ({ resetForm }) => (

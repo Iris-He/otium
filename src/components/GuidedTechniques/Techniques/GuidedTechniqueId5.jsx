@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import BaseTechnique from "../common/BaseTechnique";
-import { useInputCollection } from "../../../hooks/useInputCollection";
-import InputCollectionProgress from "../common/InputCollectionProgress";
+import { useGuidedTimer } from "../../../hooks/useGuidedTimer";
+import { TimerSetup } from "../TimerStages/TimerSetup";
+import { CountdownTimer } from "../TimerStages/CountdownTimer";
+import { ReflectionStage } from "../TimerStages/ReflectionStage";
 import TechniqueSummary from "../common/TechniqueSummary";
+import BackgroundWithLemons from "../../common/BackgroundWithLemons";
 
 const GuidedTechnique = ({
   technique,
@@ -11,73 +14,103 @@ const GuidedTechnique = ({
   onFeedbackSubmit,
 }) => {
   const [showFeedback, setShowFeedback] = useState(false);
-  const { input, handleSubmit, handleInputChange } = useInputCollection();
+  const {
+    stage,
+    totalSeconds,
+    handleTimerStart,
+    handleTimerComplete,
+    resetTimer,
+  } = useGuidedTimer();
 
   const renderCustomProgress = ({
     inputs,
     handleInputChange: updateInputs,
     handleNext,
   }) => {
-    const currentItems = inputs[0] || [];
+    switch (stage) {
+      case "setup":
+        return (
+          <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+            <div className="text-center space-y-4 mb-6">
+              <h3 className="text-xl font-serif text-gray-800">
+                Mindful Object Observation
+              </h3>
+              <p className="text-sm text-gray-500">
+                Choose a small object that has personal significance for you,
+                hold it and focus on its texture, weight, and meaning. It could
+                be a photo, a gift, or any item that carries personal
+                significance.
+              </p>
+            </div>
+            <TimerSetup onStart={handleTimerStart} />
+          </BackgroundWithLemons>
+        );
 
-    const onSubmit = (e) => {
-      e.preventDefault();
-      if (handleSubmit(e)) {
-        updateInputs(0, [...currentItems, input]);
-      }
-    };
+      case "countdown":
+        return (
+          <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+            <CountdownTimer
+              totalSeconds={totalSeconds}
+              onComplete={handleTimerComplete}
+            />
+          </BackgroundWithLemons>
+        );
 
-    return (
-      <InputCollectionProgress
-        title="Mindful Observation"
-        description={[
-          "Take a moment to observe your surroundings",
-          "Notice the details without judgment",
-          "Write down what you observe",
-        ]}
-        items={currentItems}
-        input={input}
-        onInputChange={handleInputChange}
-        onSubmit={onSubmit}
-        onNext={handleNext}
-        placeholder="What do you notice around you?"
-        bubbleColorClasses="bg-purple-100 text-purple-800"
-        buttonTheme="lime"
-      />
-    );
+      case "reflection":
+        return (
+          <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+            <ReflectionStage
+              inputs={inputs}
+              handleInputChange={updateInputs}
+              handleNext={handleNext}
+            />
+          </BackgroundWithLemons>
+        );
+
+      default:
+        return null;
+    }
   };
 
   const renderCustomSummary = ({ resetForm }) => (
-    <TechniqueSummary
-      title="Great job completing your mindful observation!"
-      description="Remember that you can practice this technique anytime you need to ground yourself."
-      onReset={resetForm}
-      onReturnToSpinner={onReturnToSpinner}
-      showFeedbackOption={true}
-      onShowFeedback={() => setShowFeedback(true)}
-    />
+    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+      <TechniqueSummary
+        title="Great job with your mindful observation!"
+        description="Remember that meaningful objects can help ground you in the present moment whenever you need support."
+        onReset={() => {
+          resetTimer();
+          resetForm();
+        }}
+        onReturnToSpinner={onReturnToSpinner}
+        showFeedbackOption={true}
+        onShowFeedback={() => setShowFeedback(true)}
+      />
+    </BackgroundWithLemons>
   );
 
   return (
-    <BaseTechnique
-      technique={technique}
-      steps={[
-        {
-          count: 1,
-          prompt: "reflection",
-          summaryTitle: "Your reflection",
-          inputType: "textarea",
-          placeholder: "What do you notice around you?",
-        },
-      ]}
-      onClose={onClose}
-      onReturnToSpinner={onReturnToSpinner}
-      onFeedbackSubmit={onFeedbackSubmit}
-      renderCustomProgress={renderCustomProgress}
-      renderCustomSummary={renderCustomSummary}
-      showFeedback={showFeedback}
-      setShowFeedback={setShowFeedback}
-    />
+    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+      <BaseTechnique
+        technique={technique}
+        steps={[
+          {
+            count: 1,
+            prompt: "reflection",
+            summaryTitle: "Your reflection",
+            inputType: "textarea",
+            placeholder:
+              "How did this exercise make you feel? What did you notice about your chosen object?",
+          },
+        ]}
+        onClose={onClose}
+        onReturnToSpinner={onReturnToSpinner}
+        onFeedbackSubmit={onFeedbackSubmit}
+        renderCustomProgress={renderCustomProgress}
+        renderCustomSummary={renderCustomSummary}
+        showFeedback={showFeedback}
+        setShowFeedback={setShowFeedback}
+      />
+    </BackgroundWithLemons>
   );
 };
 

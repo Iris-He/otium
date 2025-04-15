@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { createCompletionSound } from "../../../utils/soundEffects";
 
 export const CountdownTimer = ({ totalSeconds, onComplete }) => {
   const [timeLeft, setTimeLeft] = useState(totalSeconds);
 
   useEffect(() => {
     if (timeLeft === 0) {
+      createCompletionSound();
       onComplete();
       return;
     }

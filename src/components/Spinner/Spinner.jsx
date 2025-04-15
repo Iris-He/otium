@@ -4,7 +4,14 @@ import groundingTechniques from "../../data/groundingTechniques";
 import Dropdown from "../common/Dropdown";
 import { getFavoriteTechniques } from "../../lib/supabaseClient";
 
-const Spinner = ({ onSpin, rotationDegree, spinning, onSelectTechnique }) => {
+const Spinner = ({
+  onSpin,
+  rotationDegree,
+  spinning,
+  onSelectTechnique,
+  dropdownValue,
+  setDropdownValue,
+}) => {
   const { user } = useAuthContext();
   const [groupedTechniques, setGroupedTechniques] = useState(null);
 
@@ -27,72 +34,72 @@ const Spinner = ({ onSpin, rotationDegree, spinning, onSelectTechnique }) => {
           favorites: favoritesOptions,
           all: allOptions,
         });
+      } else {
+        // For guests, only show all techniques
+        const allOptions = groundingTechniques.map((technique) => ({
+          value: technique.id.toString(),
+          label: technique.title,
+        }));
+
+        setGroupedTechniques({
+          all: allOptions,
+        });
       }
     };
 
     loadTechniques();
   }, [user]);
 
+  const handleSelectTechnique = (value) => {
+    onSelectTechnique(value);
+    setDropdownValue(""); // Reset after selection
+  };
+
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-64 h-64 mb-8">
         {/* Wheel Background */}
         <div
-          className="absolute w-full h-full rounded-full bg-gradient-to-br from-yellow-200 to-yellow-50 shadow-md"
+          className="absolute w-full h-full rounded-full overflow-hidden"
           style={{
             transform: `rotate(${rotationDegree}deg)`,
             transition: spinning
               ? "transform 3s cubic-bezier(0.2, 0.8, 0.2, 1)"
               : "none",
+            background: `url('/lemon.png')`,
+            backgroundSize: "285% 155%",
+            backgroundPosition: "center",
           }}
-        >
-          {/* Wheel Segments */}
-          {groundingTechniques.map((technique, index) => {
-            const segmentAngle = 360 / groundingTechniques.length;
-            const rotation = index * segmentAngle;
-
-            return (
-              <div
-                key={technique.id}
-                className="absolute w-2 h-2 rounded-full bg-yellow-400 opacity-60"
-                style={{
-                  top: "50%",
-                  left: "50%",
-                  transform: `rotate(${rotation}deg) translateX(120px) translateY(-50%)`,
-                  marginLeft: "-4px", // Half of the width to center
-                  marginTop: "-4px", // Half of the height to center
-                }}
-              />
-            );
-          })}
-        </div>
+        ></div>
 
         {/* Center Button */}
         <button
-          className="absolute top-1/2 left-1/2 w-20 h-20 -mt-10 -ml-10 rounded-full bg-white border-none shadow-md flex items-center justify-center cursor-pointer transition-shadow font-serif text-gray-600 text-lg disabled:cursor-not-allowed disabled:opacity-70"
+          className="absolute top-1/2 left-1/2 w-20 h-20 -mt-10 -ml-10 rounded-full bg-white bg-opacity-40 border-none shadow-md flex items-center justify-center cursor-pointer transition-shadow font-serif text-gray-600 text-lg disabled:cursor-not-allowed disabled:opacity-70"
           onClick={onSpin}
           disabled={spinning}
         >
           <span>Spin</span>
         </button>
 
-        {/* Indicator */}
-        <div className="absolute top-0 left-1/2 -ml-2 w-4 h-8 bg-orange-500 rounded-b-full" />
+        {/* Lemon Indicator */}
+        <div
+          className="absolute top-0 left-1/2 -ml-4 text-2xl"
+          style={{ filter: "drop-shadow(2px 2px 2px rgba(0,0,0,0.15))" }}
+        >
+          📍
+        </div>
       </div>
 
-      {/* Technique Selector - only show for authenticated users */}
-      {user && !user.isGuest && (
-        <div className="w-64 mb-8">
-          <p className="text-sm text-gray-500 mb-2 text-center">
-            Or choose a specific technique:
-          </p>
-          <Dropdown
-            groupedOptions={groupedTechniques}
-            onChange={onSelectTechnique}
-            placeholder="Choose a technique"
-          />
-        </div>
-      )}
+      {/* Dropdown */}
+      <div className="w-full max-w-xs mt-4">
+        <Dropdown
+          groupedOptions={groupedTechniques}
+          onChange={handleSelectTechnique}
+          placeholder="Or choose a technique..."
+          className="w-full"
+          value={dropdownValue}
+        />
+      </div>
     </div>
   );
 };

@@ -6,12 +6,10 @@ const Dropdown = ({
   onChange,
   placeholder = "Select an option",
   className = "",
+  value = "",
 }) => {
-  const [value, setValue] = useState("");
-
   const handleChange = (e) => {
     const selectedValue = e.target.value;
-    setValue(selectedValue);
     onChange(selectedValue);
   };
 

@@ -7,6 +7,8 @@ const VARIANTS = {
   yellow: "bg-yellow-400 text-white hover:bg-yellow-300",
   green: "bg-green-500 text-white hover:bg-green-400",
   lime: "bg-lime-400 text-gray-600 hover:bg-lime-400",
+  insights:
+    "bg-lime-400 text-white hover:bg-lime-500 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200",
 };
 
 const Button = ({ variant = "primary", onClick, children, className = "" }) => {

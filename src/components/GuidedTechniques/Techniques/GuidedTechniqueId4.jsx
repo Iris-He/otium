@@ -3,6 +3,7 @@ import BaseTechnique from "../common/BaseTechnique";
 import { useInputCollection } from "../../../hooks/useInputCollection";
 import InputCollectionProgress from "../common/InputCollectionProgress";
 import TechniqueSummary from "../common/TechniqueSummary";
+import BackgroundWithLemons from "../../common/BackgroundWithLemons";
 
 const GuidedTechnique = ({
   technique,
@@ -28,22 +29,24 @@ const GuidedTechnique = ({
     };
 
     return (
-      <InputCollectionProgress
-        title="Mental Categories Exercise"
-        description={[
-          "Choose a category (like animals, cities, or foods)",
-          "List as many items as you can think of",
-          "Continue until you feel more grounded",
-        ]}
-        items={currentItems}
-        input={input}
-        onInputChange={onInputChange}
-        onSubmit={onSubmit}
-        onNext={handleNext}
-        placeholder="Enter an item in your chosen category..."
-        bubbleColorClasses="bg-purple-100 text-purple-800"
-        buttonTheme="purple"
-      />
+      <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+        <InputCollectionProgress
+          title="Mental Categories Exercise"
+          description={[
+            "Choose a category (like animals, cities, or foods)",
+            "List as many items as you can think of",
+            "Continue until you feel more grounded",
+          ]}
+          items={currentItems}
+          input={input}
+          onInputChange={onInputChange}
+          onSubmit={onSubmit}
+          onNext={handleNext}
+          placeholder="Enter an item in your chosen category..."
+          bubbleColorClasses="bg-purple-100 text-purple-800"
+          buttonTheme="lime"
+        />
+      </BackgroundWithLemons>
     );
   };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "../../common/Button";
+import BackgroundWithLemons from "../../common/BackgroundWithLemons";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import { checkFavoriteTechnique } from "../../../lib/supabaseClient";
 
@@ -68,7 +69,7 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
   }
 
   return (
-    <div className="space-y-6">
+    <BackgroundWithLemons className="space-y-6 bg-white/95 backdrop-blur-md rounded-lg p-6">
       <div className="text-center space-y-4">
         <h3 className="text-xl font-serif text-gray-800">
           Did it help you feel better?
@@ -179,7 +180,7 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
           Skip
         </Button>
       </div>
-    </div>
+    </BackgroundWithLemons>
   );
 };
 

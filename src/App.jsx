@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AuthProvider, useAuthContext } from "./contexts/AuthContext";
 import Header from "./components/Header/Header";
 import Spinner from "./components/Spinner/Spinner";
 import TechniqueCard from "./components/TechniqueCard/TechniqueCard";
 import Footer from "./components/Footer/Footer";
 import Auth from "./components/Auth/Auth";
+import Dropdown from "./components/common/Dropdown";
 import { useTechniqueSelection } from "./hooks/useTechniqueSelection";
 import {
   saveFavoriteTechnique,
   saveTechniqueUsage,
   getUserInsights,
+  getFavoriteTechniques,
 } from "./lib/supabaseClient";
 import UserInsights from "./components/Insights/UserInsights";
+import groundingTechniques from "./data/groundingTechniques";
 
 function App() {
   return (
@@ -34,9 +37,59 @@ function AppContent() {
     handleReturnToSpinner,
     handleSelectTechnique,
   } = useTechniqueSelection();
+
   const [showInsights, setShowInsights] = useState(false);
   const [insightsData, setInsightsData] = useState(null);
   const [isLoadingInsights, setIsLoadingInsights] = useState(false);
+  const [groupedTechniques, setGroupedTechniques] = useState(null);
+  const [dropdownValue, setDropdownValue] = useState("");
+
+  // Create wrapper functions that handle both the original action and dropdown reset
+  const handleTechniqueSelect = (value) => {
+    handleSelectTechnique(value);
+    setDropdownValue("");
+  };
+
+  const handleReturnToSpinnerWithReset = () => {
+    handleReturnToSpinner();
+    setDropdownValue("");
+  };
+
+  // Add useEffect to load techniques
+  useEffect(() => {
+    const loadTechniques = async () => {
+      if (user && !user.isGuest) {
+        const favorites = await getFavoriteTechniques(user.id);
+
+        const favoritesOptions = favorites.map((fav) => ({
+          value: fav.technique_id.toString(),
+          label: fav.technique_name,
+        }));
+
+        const allOptions = groundingTechniques.map((technique) => ({
+          value: technique.id.toString(),
+          label: technique.title,
+        }));
+
+        setGroupedTechniques({
+          favorites: favoritesOptions,
+          all: allOptions,
+        });
+      } else {
+        // For guests, only show all techniques
+        const allOptions = groundingTechniques.map((technique) => ({
+          value: technique.id.toString(),
+          label: technique.title,
+        }));
+
+        setGroupedTechniques({
+          all: allOptions,
+        });
+      }
+    };
+
+    loadTechniques();
+  }, [user]);
 
   const handleTechniqueFeedback = async (feedback) => {
     if (!user || user.isGuest) {
@@ -86,49 +139,66 @@ function AppContent() {
   // Show auth screen if no user
   if (!user) {
     return (
-      <div className="flex flex-col min-h-screen p-6 w-full bg-gray-50 text-gray-700 font-sans">
-        <Header />
-        <div className="flex-1 flex items-center justify-center">
-          <Auth
-            onSignIn={handleSignIn}
-            onProceedAsGuest={handleProceedAsGuest}
-          />
+      <div className="relative min-h-screen w-full bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-fixed">
+        <div className="absolute inset-0 bg-yellow-100/80">
+          <div className="relative flex flex-col min-h-screen p-6 w-full text-gray-700 font-sans">
+            <Header />
+            <div className="flex-1 flex items-center justify-center">
+              <Auth
+                onSignIn={handleSignIn}
+                onProceedAsGuest={handleProceedAsGuest}
+              />
+            </div>
+            <Footer />
+          </div>
         </div>
-        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col min-h-screen p-6 w-full bg-gray-50 text-gray-700 font-sans">
-      <Header onSignOut={handleSignOut} onViewInsights={handleViewInsights} />
-      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-7xl mx-auto px-6 mb-16">
-        {showInsights ? (
-          <UserInsights
-            insights={insightsData}
-            onClose={handleCloseInsights}
-            isLoading={isLoadingInsights}
-            userId={user.id}
-          />
-        ) : (
-          <div className="relative w-64 h-64">
-            <Spinner
-              onSpin={handleSpin}
-              rotationDegree={rotationDegree}
-              spinning={spinning}
-              onSelectTechnique={handleSelectTechnique}
-            />
-            <TechniqueCard
-              technique={selectedTechnique}
-              onNewTechnique={handleNewTechnique}
-              onReturnToSpinner={handleReturnToSpinner}
-              onFeedbackSubmit={handleTechniqueFeedback}
-              visible={showCard}
-            />
-          </div>
-        )}
+    <div className="relative min-h-screen w-full bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-fixed">
+      <div className="absolute inset-0 bg-white/60">
+        <div className="relative flex flex-col min-h-screen w-full text-gray-700 font-sans">
+          <Header onSignOut={handleSignOut} />
+          <main className="flex-1 flex flex-col items-center justify-center w-full max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+            {showInsights ? (
+              <UserInsights
+                insights={insightsData}
+                onClose={handleCloseInsights}
+                isLoading={isLoadingInsights}
+                userId={user.id}
+              />
+            ) : (
+              <>
+                <div className="flex flex-col items-center justify-center w-full">
+                  <div className="spinner-container relative w-48 sm:w-64 h-48 sm:h-64 mb-12">
+                    <Spinner
+                      onSpin={handleSpin}
+                      rotationDegree={rotationDegree}
+                      spinning={spinning}
+                      onSelectTechnique={handleTechniqueSelect}
+                      dropdownValue={dropdownValue}
+                      setDropdownValue={setDropdownValue}
+                    />
+                  </div>
+                </div>
+
+                {selectedTechnique && (
+                  <TechniqueCard
+                    technique={selectedTechnique}
+                    onNewTechnique={handleNewTechnique}
+                    onReturnToSpinner={handleReturnToSpinnerWithReset}
+                    onFeedbackSubmit={handleTechniqueFeedback}
+                    visible={showCard}
+                  />
+                )}
+              </>
+            )}
+          </main>
+          <Footer onViewInsights={handleViewInsights} />
+        </div>
       </div>
-      <Footer />
     </div>
   );
 }

@@ -1,8 +1,9 @@
 import React from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
-import Button from "../common/Button";
+import { HiOutlineLogout } from "react-icons/hi";
+import { HiOutlineLogin } from "react-icons/hi";
 
-const Header = ({ onSignOut, onViewInsights }) => {
+const Header = ({ onSignOut }) => {
   const { user } = useAuthContext();
   const displayName = user?.isGuest
     ? "guest"
@@ -10,35 +11,42 @@ const Header = ({ onSignOut, onViewInsights }) => {
       user?.identities?.[0]?.identity_data?.full_name ||
       "User";
   const showSignOut = user && !user.isGuest;
-  const showInsights = user && !user.isGuest;
+  const showSignIn = user?.isGuest;
 
   return (
     <header className="mb-8">
       {/* Mobile layout (flex-col) for small screens, row layout for larger screens */}
       <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center mb-4 relative">
         {/* Container for greeting and buttons */}
-        <div className="flex justify-between items-center w-full sm:absolute sm:left-0 sm:right-0">
+        <div className="flex flex-col sm:absolute sm:left-0">
           {user && (
-            <span className="px-4 py-2 text-sm text-gray-700">
-              Hello, {displayName}
-            </span>
+            <div className="flex items-center">
+              <span className="px-4 py-2 text-sm text-gray-700">
+                Hello, {displayName}
+              </span>
+            </div>
           )}
+        </div>
+        <div className="sm:absolute sm:right-0">
           {showSignOut && (
-            <div className="flex space-x-2 px-4">
-              {showInsights && (
-                <Button
-                  onClick={onViewInsights}
-                  variant="secondary"
-                  className="py-1 px-3 text-xs"
-                >
-                  My Insights
-                </Button>
-              )}
+            <div className="flex justify-end px-4">
               <button
                 onClick={onSignOut}
-                className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+                className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
+                aria-label="Sign out"
               >
-                Sign Out
+                <HiOutlineLogout className="h-5 w-5" />
+              </button>
+            </div>
+          )}
+          {showSignIn && (
+            <div className="flex justify-end px-4">
+              <button
+                onClick={onSignOut} // This will redirect to sign in form since we're clearing the guest session
+                className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
+                aria-label="Sign in"
+              >
+                <HiOutlineLogin className="h-5 w-5" />
               </button>
             </div>
           )}
