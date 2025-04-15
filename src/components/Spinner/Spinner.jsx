@@ -56,8 +56,8 @@ const Spinner = ({
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="relative w-64 h-64 mb-8">
+    <div className="flex flex-col items-center mb-8 sm:mb-4">
+      <div className="relative w-64 h-64 mb-4">
         {/* Wheel Background */}
         <div
           className="absolute w-full h-full rounded-full overflow-hidden"
@@ -91,7 +91,7 @@ const Spinner = ({
       </div>
 
       {/* Dropdown */}
-      <div className="w-full max-w-xs mt-4">
+      <div className="w-full max-w-xs mt-4 mb-4 sm:mb-0">
         <Dropdown
           groupedOptions={groupedTechniques}
           onChange={handleSelectTechnique}

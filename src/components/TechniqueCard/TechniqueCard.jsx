@@ -67,7 +67,7 @@ const TechniqueCard = ({
     >
       {showGuided && GuidedTechnique && (
         <Suspense fallback={<div className="text-center">Loading...</div>}>
-          <div className="absolute inset-x-0 top-20 bottom-16 z-20 bg-transparent rounded-lg mx-4 flex items-center justify-center">
+          <div className="absolute inset-x-0 top-20 bottom-16 z-50 bg-transparent rounded-lg mx-4 flex items-center justify-center">
             <div className="w-full max-w-2xl">
               <GuidedTechnique
                 technique={technique}

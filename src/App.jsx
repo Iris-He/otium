@@ -43,16 +43,19 @@ function AppContent() {
   const [isLoadingInsights, setIsLoadingInsights] = useState(false);
   const [groupedTechniques, setGroupedTechniques] = useState(null);
   const [dropdownValue, setDropdownValue] = useState("");
+  const [isGuidedTechniqueActive, setIsGuidedTechniqueActive] = useState(false);
 
   // Create wrapper functions that handle both the original action and dropdown reset
   const handleTechniqueSelect = (value) => {
     handleSelectTechnique(value);
     setDropdownValue("");
+    setIsGuidedTechniqueActive(true); // Set to true when technique is selected
   };
 
   const handleReturnToSpinnerWithReset = () => {
     handleReturnToSpinner();
     setDropdownValue("");
+    setIsGuidedTechniqueActive(false); // Set to false when returning to spinner
   };
 
   // Add useEffect to load techniques
@@ -196,7 +199,9 @@ function AppContent() {
               </>
             )}
           </main>
-          <Footer onViewInsights={handleViewInsights} />
+          {!isGuidedTechniqueActive && !selectedTechnique && (
+            <Footer onViewInsights={handleViewInsights} />
+          )}
         </div>
       </div>
     </div>

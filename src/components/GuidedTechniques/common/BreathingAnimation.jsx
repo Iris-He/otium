@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { createTickSound } from "../../../utils/soundEffects";
+import { useTickSound } from "../../../hooks/useTickSound";
 
 const PHASES = {
   INHALE: { duration: 4000, text: "Inhale" },
@@ -17,30 +17,48 @@ export const BreathingAnimation = ({ cycles = 3, onComplete }) => {
   const [currentCycle, setCurrentCycle] = useState(0);
   const [phase, setPhase] = useState("INHALE");
   const [timeLeft, setTimeLeft] = useState(PHASES.INHALE.duration);
-  const lastSecondRef = useRef(Math.ceil(PHASES.INHALE.duration / 1000));
+  const [isActive, setIsActive] = useState(true);
+  const lastTickTime = useRef(null);
 
   const switchPhase = (newPhase) => {
     setPhase(newPhase);
-    createTickSound(); // Play sound on phase change
-    lastSecondRef.current = Math.ceil(PHASES[newPhase].duration / 1000);
     return PHASES[newPhase].duration;
   };
 
+  // Handle ticking sound separately from animation updates
+  useEffect(() => {
+    if (!isActive) return;
+
+    const now = Date.now();
+    if (!lastTickTime.current) {
+      lastTickTime.current = now;
+    }
+
+    const timer = setInterval(() => {
+      const currentTime = Date.now();
+      if (currentTime - lastTickTime.current >= 1000) {
+        lastTickTime.current = currentTime;
+        setIsActive(true); // Ensure tick sound plays
+      }
+    }, 100);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isActive]);
+
+  useTickSound(isActive);
+
+  // Handle animation and phase changes
   useEffect(() => {
     if (currentCycle >= cycles) {
+      setIsActive(false);
       onComplete();
       return;
     }
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
-        const currentSecond = Math.ceil(prev / 1000);
-        // Play sound when second changes
-        if (currentSecond !== lastSecondRef.current && currentSecond > 0) {
-          createTickSound();
-          lastSecondRef.current = currentSecond;
-        }
-
         if (prev <= 0) {
           switch (phase) {
             case "INHALE":
@@ -58,7 +76,9 @@ export const BreathingAnimation = ({ cycles = 3, onComplete }) => {
       });
     }, 100);
 
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+    };
   }, [phase, currentCycle, cycles, onComplete]);
 
   const getScale = () => {

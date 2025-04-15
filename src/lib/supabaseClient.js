@@ -94,8 +94,8 @@ export const saveTechniqueUsage = async ({
   }
 
   const now = new Date();
-  const dayOfWeek = now.getDay(); // 0-6 (Sunday-Saturday)
-  const timeOfDay = now.getHours(); // 0-23
+  const dayOfWeek = now.getDay();
+  const timeOfDay = now.getHours();
 
   const { data, error } = await supabase
     .from("technique_usage")
@@ -109,7 +109,7 @@ export const saveTechniqueUsage = async ({
         anxiety_context: anxietyContext || null,
         day_of_week: dayOfWeek,
         time_of_day: timeOfDay,
-        created_at: now.toISOString(),
+        created_at: now.toISOString(), // Ensure proper ISO string format
       },
     ])
     .select();

@@ -14,49 +14,41 @@ const Header = ({ onSignOut }) => {
   const showSignIn = user?.isGuest;
 
   return (
-    <header className="mb-8">
-      {/* Mobile layout (flex-col) for small screens, row layout for larger screens */}
-      <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center mb-4 relative">
-        {/* Container for greeting and buttons */}
-        <div className="flex flex-col sm:absolute sm:left-0">
+    <header className="mb-8 px-4">
+      <div className="flex flex-row flex-wrap justify-between items-center mb-4 relative gap-2">
+        {/* User greeting */}
+        <div className="flex-shrink-0">
           {user && (
-            <div className="flex items-center">
-              <span className="px-4 py-2 text-sm text-gray-700">
-                Hello, {displayName}
-              </span>
-            </div>
+            <span className="text-sm text-gray-700">Hello, {displayName}</span>
           )}
         </div>
-        <div className="sm:absolute sm:right-0">
+
+        {/* Sign in/out buttons */}
+        <div className="flex-shrink-0">
           {showSignOut && (
-            <div className="flex justify-end px-4">
-              <button
-                onClick={onSignOut}
-                className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
-                aria-label="Sign out"
-              >
-                <HiOutlineLogout className="h-5 w-5" />
-              </button>
-            </div>
+            <button
+              onClick={onSignOut}
+              className="p-2 text-gray-500 hover:text-gray-700 transition-colors min-w-[40px]"
+              aria-label="Sign out"
+            >
+              <HiOutlineLogout className="h-5 w-5" />
+            </button>
           )}
           {showSignIn && (
-            <div className="flex justify-end px-4">
-              <button
-                onClick={onSignOut} // This will redirect to sign in form since we're clearing the guest session
-                className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
-                aria-label="Sign in"
-              >
-                <HiOutlineLogin className="h-5 w-5" />
-              </button>
-            </div>
+            <button
+              onClick={onSignOut}
+              className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
+              aria-label="Sign in"
+            >
+              <HiOutlineLogin className="h-5 w-5" />
+            </button>
           )}
         </div>
-        {/* Title centered on both layouts */}
-        <h1 className="font-serif text-4xl text-gray-800 text-center mt-4 sm:mt-0">
-          Lemonaid
-        </h1>
       </div>
+
+      {/* Title */}
       <div className="text-center">
+        <h1 className="font-serif text-4xl text-gray-800 mb-4">Lemonaid</h1>
         <p className="text-gray-500">
           When life gives you lemons, make lemonade 🍋
         </p>
