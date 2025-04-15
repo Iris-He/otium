@@ -1,8 +1,8 @@
-import React from "react";
-import BaseTechnique from "./common/BaseTechnique";
-import { useInputCollection } from "../../hooks/useInputCollection";
-import InputCollectionProgress from "./common/InputCollectionProgress";
-import TechniqueSummary from "./common/TechniqueSummary";
+import React, { useState } from "react";
+import BaseTechnique from "../common/BaseTechnique";
+import { useInputCollection } from "../../../hooks/useInputCollection";
+import InputCollectionProgress from "../common/InputCollectionProgress";
+import TechniqueSummary from "../common/TechniqueSummary";
 
 const GuidedTechnique = ({
   technique,
@@ -10,8 +10,7 @@ const GuidedTechnique = ({
   onReturnToSpinner,
   onFeedbackSubmit,
 }) => {
-  if (technique.id !== 4) return null;
-
+  const [showFeedback, setShowFeedback] = useState(false);
   const {
     input,
     handleSubmit,
@@ -30,29 +29,32 @@ const GuidedTechnique = ({
 
     return (
       <InputCollectionProgress
-        title="List Items in Your Category"
+        title="Mental Categories Exercise"
         description={[
-          "Add items one at a time",
-          "Click Complete when you're done",
+          "Choose a category (like animals, cities, or foods)",
+          "List as many items as you can think of",
+          "Continue until you feel more grounded",
         ]}
         items={currentItems}
         input={input}
         onInputChange={onInputChange}
         onSubmit={onSubmit}
         onNext={handleNext}
-        placeholder="Enter an item..."
-        bubbleColorClasses="bg-yellow-100 text-yellow-800"
-        buttonTheme="yellow"
+        placeholder="Enter an item in your chosen category..."
+        bubbleColorClasses="bg-purple-100 text-purple-800"
+        buttonTheme="purple"
       />
     );
   };
 
-  const renderCustomSummary = () => (
+  const renderCustomSummary = ({ resetForm }) => (
     <TechniqueSummary
-      title="Great job organizing your thoughts!"
-      description="You can use this categorization technique anytime you need to bring order to your thoughts"
-      onReset={() => onReturnToSpinner()}
+      title="Mental Categories Complete!"
+      description="Great job focusing your mind through categorization"
+      onReset={resetForm}
       onReturnToSpinner={onReturnToSpinner}
+      showFeedbackOption={true}
+      onShowFeedback={() => setShowFeedback(true)}
     />
   );
 
@@ -62,8 +64,8 @@ const GuidedTechnique = ({
       steps={[
         {
           count: 1,
-          prompt: "categories",
-          summaryTitle: "Your categories",
+          prompt: "items in your category",
+          summaryTitle: "Your category items",
         },
       ]}
       onClose={onClose}
@@ -71,6 +73,8 @@ const GuidedTechnique = ({
       onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
       renderCustomSummary={renderCustomSummary}
+      showFeedback={showFeedback}
+      setShowFeedback={setShowFeedback}
     />
   );
 };

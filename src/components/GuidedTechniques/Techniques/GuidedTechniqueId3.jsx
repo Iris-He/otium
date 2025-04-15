@@ -1,8 +1,8 @@
-import React from "react";
-import BaseTechnique from "./common/BaseTechnique";
-import { useInputCollection } from "../../hooks/useInputCollection";
-import InputCollectionProgress from "./common/InputCollectionProgress";
-import TechniqueSummary from "./common/TechniqueSummary";
+import React, { useState } from "react";
+import BaseTechnique from "../common/BaseTechnique";
+import { useInputCollection } from "../../../hooks/useInputCollection";
+import InputCollectionProgress from "../common/InputCollectionProgress";
+import TechniqueSummary from "../common/TechniqueSummary";
 
 const STEPS = [
   {
@@ -25,22 +25,20 @@ const GuidedTechnique = ({
   onReturnToSpinner,
   onFeedbackSubmit,
 }) => {
-  if (technique.id !== 3) return null;
+  const [showFeedback, setShowFeedback] = useState(false);
+  const { input, handleSubmit, handleInputChange } = useInputCollection();
 
-  const {
-    input,
-    handleSubmit,
-    handleInputChange: onInputChange,
-  } = useInputCollection();
-
-  const renderCustomProgress = ({ inputs, handleInputChange, handleNext }) => {
-    // Fix: Access the array directly from inputs[0]
+  const renderCustomProgress = ({
+    inputs,
+    handleInputChange: updateInputs,
+    handleNext,
+  }) => {
     const currentItems = inputs[0] || [];
 
     const onSubmit = (e) => {
       e.preventDefault();
       if (handleSubmit(e)) {
-        handleInputChange(0, [...currentItems, input]);
+        updateInputs(0, [...currentItems, input]);
       }
     };
 
@@ -50,7 +48,7 @@ const GuidedTechnique = ({
         description={STEPS[0].instructions}
         items={currentItems}
         input={input}
-        onInputChange={onInputChange}
+        onInputChange={(e) => handleInputChange(e)}
         onSubmit={onSubmit}
         onNext={handleNext}
         placeholder={`${STEPS[0].inputPrompt}${STEPS[0].inputSuffix}`}
@@ -60,12 +58,14 @@ const GuidedTechnique = ({
     );
   };
 
-  const renderCustomSummary = () => (
+  const renderCustomSummary = ({ resetForm }) => (
     <TechniqueSummary
-      title="Color Scan Complete!"
-      description="Focusing on colors and textures helps ground you in the present moment"
-      onReset={() => onReturnToSpinner()}
+      title="Great job completing the color scan!"
+      description="This exercise helped you focus on the present moment through color observation."
+      onReset={resetForm}
       onReturnToSpinner={onReturnToSpinner}
+      showFeedbackOption={true}
+      onShowFeedback={() => setShowFeedback(true)}
     />
   );
 
@@ -78,6 +78,8 @@ const GuidedTechnique = ({
       onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
       renderCustomSummary={renderCustomSummary}
+      showFeedback={showFeedback}
+      setShowFeedback={setShowFeedback}
     />
   );
 };

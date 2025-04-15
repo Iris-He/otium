@@ -1,20 +1,15 @@
-import React from "react";
-import BaseTechnique from "./common/BaseTechnique";
-import { useInputCollection } from "../../hooks/useInputCollection";
-import InputCollectionProgress from "./common/InputCollectionProgress";
-import TechniqueSummary from "./common/TechniqueSummary";
+import React, { useState } from "react";
+import BaseTechnique from "../common/BaseTechnique";
+import { useInputCollection } from "../../../hooks/useInputCollection";
+import InputCollectionProgress from "../common/InputCollectionProgress";
+import TechniqueSummary from "../common/TechniqueSummary";
 
 const STEPS = [
   {
     count: 5,
     prompt: "things you can see",
     inputPrompt: "I can see",
-    instructions: [
-      "Look around your current environment",
-      "Name 5 things you can see right now",
-      "Add items one at a time",
-    ],
-    summaryTitle: "Things you saw",
+    instructions: ["Look around and identify things you can see"],
   },
   {
     count: 4,
@@ -68,15 +63,12 @@ const GuidedTechnique = ({
   onReturnToSpinner,
   onFeedbackSubmit,
 }) => {
-  const {
-    input,
-    handleSubmit,
-    handleInputChange: onInputChange,
-  } = useInputCollection();
+  const [showFeedback, setShowFeedback] = useState(false);
+  const { input, handleSubmit, handleInputChange } = useInputCollection();
 
   const renderCustomProgress = ({
     inputs,
-    handleInputChange,
+    handleInputChange: updateInputs,
     handleNext,
     currentStep,
   }) => {
@@ -86,20 +78,17 @@ const GuidedTechnique = ({
     const onSubmit = (e) => {
       e.preventDefault();
       if (handleSubmit(e)) {
-        handleInputChange(currentStep, [...currentItems, input]);
+        updateInputs(currentStep, [...currentItems, input]);
       }
     };
 
     return (
       <InputCollectionProgress
         title={`Try to name ${step.count} ${step.prompt}`}
-        description={[
-          ...step.instructions,
-          `See if you can list ${step.count} items, but it's okay to move on with fewer`,
-        ]}
+        description={step.instructions}
         items={currentItems}
         input={input}
-        onInputChange={onInputChange}
+        onInputChange={handleInputChange}
         onSubmit={onSubmit}
         onNext={handleNext}
         placeholder={`${step.inputPrompt}...`}
@@ -109,6 +98,17 @@ const GuidedTechnique = ({
     );
   };
 
+  const renderCustomSummary = ({ resetForm }) => (
+    <TechniqueSummary
+      title="Great job completing the 5-4-3-2-1 exercise!"
+      description="Using your senses to ground yourself can help bring you back to the present moment."
+      onReset={resetForm}
+      onReturnToSpinner={onReturnToSpinner}
+      showFeedbackOption={true}
+      onShowFeedback={() => setShowFeedback(true)}
+    />
+  );
+
   return (
     <BaseTechnique
       technique={technique}
@@ -117,6 +117,9 @@ const GuidedTechnique = ({
       onReturnToSpinner={onReturnToSpinner}
       onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
+      renderCustomSummary={renderCustomSummary}
+      showFeedback={showFeedback}
+      setShowFeedback={setShowFeedback}
     />
   );
 };

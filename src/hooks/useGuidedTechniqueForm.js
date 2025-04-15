@@ -28,7 +28,12 @@ export const useGuidedTechniqueForm = (steps) => {
   };
 
   const hasValidInputs = () => {
-    return inputs[currentStep] && inputs[currentStep].length > 0;
+    const currentInput = inputs[currentStep];
+    if (Array.isArray(currentInput)) {
+      return currentInput.length > 0;
+    }
+    // Handle string input (like textarea)
+    return currentInput && currentInput.trim().length > 0;
   };
 
   const resetForm = () => {

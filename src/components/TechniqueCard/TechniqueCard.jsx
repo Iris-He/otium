@@ -2,13 +2,22 @@ import React, { useState, lazy, Suspense } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
 import Button from "../common/Button";
 
-// Lazy load all guided technique components
-const guidedTechniqueComponents = {};
-for (let i = 1; i <= 10; i++) {
-  guidedTechniqueComponents[i] = lazy(() =>
-    import(`../GuidedTechniques/GuidedTechniqueId${i}.jsx`)
-  );
-}
+// Use Vite's glob import to dynamically load all technique components
+const techniqueModules = import.meta.glob(
+  "../GuidedTechniques/Techniques/GuidedTechniqueId*.jsx",
+  { eager: false }
+);
+
+// Create a mapping of technique IDs to their lazy-loaded components
+const guidedTechniqueComponents = Object.entries(techniqueModules).reduce(
+  (acc, [path, importFn]) => {
+    // Extract the technique ID from the filename
+    const techniqueId = parseInt(path.match(/GuidedTechniqueId(\d+)\.jsx$/)[1]);
+    acc[techniqueId] = lazy(importFn);
+    return acc;
+  },
+  {}
+);
 
 const TechniqueCard = ({
   technique,
@@ -43,22 +52,30 @@ const TechniqueCard = ({
   const GuidedTechnique = guidedTechniqueComponents[technique.id];
 
   return (
-    <div className={`absolute inset-0 ${visible ? "block" : "hidden"}`}>
+    <div
+      className={`fixed inset-0 flex items-center justify-center ${
+        visible ? "block" : "hidden"
+      }`}
+    >
       {showGuided && GuidedTechnique && (
         <Suspense fallback={<div className="text-center">Loading...</div>}>
-          <GuidedTechnique
-            technique={technique}
-            onClose={() => setShowGuided(false)}
-            onReturnToSpinner={() => {
-              setShowGuided(false);
-              onReturnToSpinner();
-            }}
-            onFeedbackSubmit={handleFeedbackSubmit}
-          />
+          <div className="absolute inset-x-0 top-20 bottom-16 z-20 bg-white bg-opacity-95 rounded-lg mx-4 flex items-center justify-center">
+            <div className="w-full max-w-2xl">
+              <GuidedTechnique
+                technique={technique}
+                onClose={() => setShowGuided(false)}
+                onReturnToSpinner={() => {
+                  setShowGuided(false);
+                  onReturnToSpinner();
+                }}
+                onFeedbackSubmit={handleFeedbackSubmit}
+              />
+            </div>
+          </div>
         </Suspense>
       )}
       <div
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between z-10 transition-all duration-400 ease-in-out
+        className={`relative w-full max-w-xl bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between z-10 transition-all duration-400 ease-in-out m-4
           ${
             !showGuided && visible
               ? "opacity-100 scale-100"
@@ -73,12 +90,34 @@ const TechniqueCard = ({
         </p>
 
         <div className="flex flex-col gap-3 justify-center mt-auto">
-          <Button variant="lime" onClick={() => setShowGuided(true)}>
+          <Button
+            variant="lime"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowGuided(true);
+            }}
+          >
             Try It Now
           </Button>
           <div className="flex gap-3 justify-center">
-            <Button onClick={onNewTechnique}>New Technique</Button>
-            <Button variant="secondary" onClick={onReturnToSpinner}>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onNewTechnique();
+              }}
+            >
+              New Technique
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onReturnToSpinner();
+              }}
+            >
               Return to Spinner
             </Button>
           </div>

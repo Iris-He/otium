@@ -12,15 +12,20 @@ export const ItemInput = ({
   const inputValue = input?.toString() || "";
 
   return (
-    <form onSubmit={onSubmit} className="flex gap-2">
+    <form onSubmit={onSubmit} className="flex gap-2 w-full">
       <input
         type="text"
         value={inputValue}
-        onChange={onInputChange}
+        onChange={onInputChange} // Remove the arrow function wrapper
         placeholder={placeholder}
-        className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 min-w-0"
       />
-      <Button type="submit" disabled={!inputValue.trim()} variant={buttonTheme}>
+      <Button
+        type="submit"
+        disabled={!inputValue.trim()}
+        variant={buttonTheme}
+        className="whitespace-nowrap"
+      >
         Add
       </Button>
     </form>

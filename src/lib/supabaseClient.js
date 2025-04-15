@@ -322,6 +322,8 @@ function calculateTimeOfDayDistribution(usageData) {
     { name: "Night", count: 0 },
   ];
 
+  const total = usageData.length;
+
   usageData.forEach((item) => {
     const hour = item.time_of_day;
     if (hour >= 5 && hour <= 11) {
@@ -335,7 +337,11 @@ function calculateTimeOfDayDistribution(usageData) {
     }
   });
 
-  return timeGroups;
+  // Convert counts to percentages
+  return timeGroups.map((group) => ({
+    ...group,
+    percentage: total > 0 ? Math.round((group.count / total) * 100) : 0,
+  }));
 }
 
 function calculateUsageByTechnique(usageData) {

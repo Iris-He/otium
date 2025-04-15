@@ -1,7 +1,7 @@
-import React from "react";
-import BaseTechnique from "./common/BaseTechnique";
-import { BreathingAnimation } from "./common/BreathingAnimation";
-import TechniqueSummary from "./common/TechniqueSummary";
+import React, { useState } from "react";
+import BaseTechnique from "../common/BaseTechnique";
+import { BreathingAnimation } from "../common/BreathingAnimation";
+import TechniqueSummary from "../common/TechniqueSummary";
 
 const BREATHING_EXERCISE = {
   count: 1,
@@ -22,6 +22,8 @@ const GuidedTechnique = ({
   onReturnToSpinner,
   onFeedbackSubmit,
 }) => {
+  const [showFeedback, setShowFeedback] = useState(false);
+
   if (technique.id !== 1) return null;
 
   const renderCustomProgress = ({ handleNext }) => (
@@ -52,6 +54,8 @@ const GuidedTechnique = ({
       ]}
       onReset={resetForm}
       onReturnToSpinner={onReturnToSpinner}
+      showFeedbackOption={true}
+      onShowFeedback={() => setShowFeedback(true)}
     />
   );
 
@@ -64,6 +68,8 @@ const GuidedTechnique = ({
       onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
       renderCustomSummary={renderCustomSummary}
+      showFeedback={showFeedback}
+      setShowFeedback={setShowFeedback}
     />
   );
 };

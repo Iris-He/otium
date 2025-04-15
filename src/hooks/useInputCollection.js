@@ -14,8 +14,10 @@ export const useInputCollection = (initialItems = []) => {
     return false;
   };
 
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
+  const handleInputChange = (eventOrValue) => {
+    // Handle both event objects and direct values
+    const value = eventOrValue?.target?.value ?? eventOrValue;
+    setInput(value);
   };
 
   return {

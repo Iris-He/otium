@@ -1,9 +1,8 @@
-import React from "react";
-import BaseTechnique from "./common/BaseTechnique";
-import { useInputCollection } from "../../hooks/useInputCollection";
-import InputCollectionProgress from "./common/InputCollectionProgress";
-import TechniqueSummary from "./common/TechniqueSummary";
-// import { useAuthContext } from "../../contexts/AuthContext";
+import React, { useState } from "react";
+import BaseTechnique from "../common/BaseTechnique";
+import { useInputCollection } from "../../../hooks/useInputCollection";
+import InputCollectionProgress from "../common/InputCollectionProgress";
+import TechniqueSummary from "../common/TechniqueSummary";
 
 const GuidedTechnique = ({
   technique,
@@ -11,22 +10,20 @@ const GuidedTechnique = ({
   onReturnToSpinner,
   onFeedbackSubmit,
 }) => {
-  if (technique.id !== 6) return null;
+  const [showFeedback, setShowFeedback] = useState(false);
+  const { input, handleSubmit, handleInputChange } = useInputCollection();
 
-  const {
-    input,
-    handleSubmit,
-    handleInputChange: onInputChange,
-  } = useInputCollection();
-
-  const renderCustomProgress = ({ inputs, handleInputChange, handleNext }) => {
-    // Fix: Access the array directly from inputs[0]
+  const renderCustomProgress = ({
+    inputs,
+    handleInputChange: updateInputs,
+    handleNext,
+  }) => {
     const currentEmotions = inputs[0] || [];
 
     const onSubmit = (e) => {
       e.preventDefault();
       if (handleSubmit(e)) {
-        handleInputChange(0, [...currentEmotions, input]);
+        updateInputs(0, [...currentEmotions, input]);
       }
     };
 
@@ -40,7 +37,7 @@ const GuidedTechnique = ({
         ]}
         items={currentEmotions}
         input={input}
-        onInputChange={onInputChange}
+        onInputChange={handleInputChange}
         onSubmit={onSubmit}
         onNext={handleNext}
         placeholder="Enter how you're feeling..."
@@ -52,12 +49,12 @@ const GuidedTechnique = ({
 
   const renderCustomSummary = ({ resetForm }) => (
     <TechniqueSummary
-      title="Thank you for being honest with your emotions"
-      description={[
-        "Acknowledging our feelings without judgment is an important step in emotional awareness",
-        "Remember you can return to this exercise whenever you need to check in with yourself",
-      ]}
+      title="Emotional Awareness Complete!"
+      description="Great job identifying and acknowledging your emotions"
       onReset={resetForm}
+      onReturnToSpinner={onReturnToSpinner}
+      showFeedbackOption={true}
+      onShowFeedback={() => setShowFeedback(true)}
     />
   );
 
@@ -76,6 +73,8 @@ const GuidedTechnique = ({
       onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
       renderCustomSummary={renderCustomSummary}
+      showFeedback={showFeedback}
+      setShowFeedback={setShowFeedback}
     />
   );
 };
