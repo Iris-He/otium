@@ -15,6 +15,7 @@ import {
 } from "./lib/supabaseClient";
 import UserInsights from "./components/Insights/UserInsights";
 import groundingTechniques from "./data/groundingTechniques";
+import LoadingSpinner from "./components/common/LoadingSpinner";
 
 function App() {
   return (
@@ -25,8 +26,13 @@ function App() {
 }
 
 function AppContent() {
-  const { user, handleSignOut, handleSignIn, handleProceedAsGuest } =
-    useAuthContext();
+  const {
+    user,
+    isEmailConfirmed,
+    handleSignOut,
+    handleSignIn,
+    handleProceedAsGuest,
+  } = useAuthContext();
   const {
     spinning,
     selectedTechnique,
@@ -44,8 +50,50 @@ function AppContent() {
   const [groupedTechniques, setGroupedTechniques] = useState(null);
   const [dropdownValue, setDropdownValue] = useState("");
   const [isGuidedTechniqueActive, setIsGuidedTechniqueActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Create wrapper functions that handle both the original action and dropdown reset
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        if (user) {
+          const favorites = user.isGuest
+            ? []
+            : await getFavoriteTechniques(user.id);
+
+          const favoritesOptions = favorites.map((fav) => ({
+            value: fav.technique_id.toString(),
+            label: fav.technique_name,
+          }));
+
+          const allOptions = groundingTechniques.map((technique) => ({
+            value: technique.id.toString(),
+            label: technique.title,
+          }));
+
+          setGroupedTechniques({
+            favorites: favoritesOptions,
+            all: allOptions,
+          });
+        } else {
+          const allOptions = groundingTechniques.map((technique) => ({
+            value: technique.id.toString(),
+            label: technique.title,
+          }));
+
+          setGroupedTechniques({
+            all: allOptions,
+          });
+        }
+      } catch (error) {
+        // Keep error handling without console.log
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadInitialData();
+  }, [user]);
+
   const handleTechniqueSelect = (value) => {
     handleSelectTechnique(value);
     setDropdownValue("");
@@ -57,42 +105,6 @@ function AppContent() {
     setDropdownValue("");
     setIsGuidedTechniqueActive(false); // Set to false when returning to spinner
   };
-
-  // Add useEffect to load techniques
-  useEffect(() => {
-    const loadTechniques = async () => {
-      if (user && !user.isGuest) {
-        const favorites = await getFavoriteTechniques(user.id);
-
-        const favoritesOptions = favorites.map((fav) => ({
-          value: fav.technique_id.toString(),
-          label: fav.technique_name,
-        }));
-
-        const allOptions = groundingTechniques.map((technique) => ({
-          value: technique.id.toString(),
-          label: technique.title,
-        }));
-
-        setGroupedTechniques({
-          favorites: favoritesOptions,
-          all: allOptions,
-        });
-      } else {
-        // For guests, only show all techniques
-        const allOptions = groundingTechniques.map((technique) => ({
-          value: technique.id.toString(),
-          label: technique.title,
-        }));
-
-        setGroupedTechniques({
-          all: allOptions,
-        });
-      }
-    };
-
-    loadTechniques();
-  }, [user]);
 
   const handleTechniqueFeedback = async (feedback) => {
     if (!user || user.isGuest) {
@@ -139,21 +151,46 @@ function AppContent() {
     setShowInsights(false);
   };
 
-  // Show auth screen if no user
-  if (!user) {
+  // Show auth screen if no user or email not confirmed
+  if (!user || (user && !user.isGuest && !isEmailConfirmed)) {
     return (
       <div className="relative min-h-screen w-full bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-fixed">
         <div className="absolute inset-0 bg-yellow-100/80">
           <div className="relative flex flex-col min-h-screen p-6 w-full text-gray-700 font-sans">
             <Header />
             <div className="flex-1 flex items-center justify-center">
-              <Auth
-                onSignIn={handleSignIn}
-                onProceedAsGuest={handleProceedAsGuest}
-              />
+              {!user ? (
+                <Auth
+                  onSignIn={handleSignIn}
+                  onProceedAsGuest={handleProceedAsGuest}
+                />
+              ) : (
+                <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+                  <h2 className="text-2xl font-serif text-center mb-6">
+                    Email Verification Required
+                  </h2>
+                  <p className="text-center text-gray-600 mb-4">
+                    Please check your email and click the verification link to
+                    access your account.
+                  </p>
+                  <Button onClick={handleSignOut} className="w-full">
+                    Sign Out
+                  </Button>
+                </div>
+              )}
             </div>
             <Footer />
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="relative min-h-screen w-full bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-fixed">
+        <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
+          <LoadingSpinner message="Loading application..." />
         </div>
       </div>
     );

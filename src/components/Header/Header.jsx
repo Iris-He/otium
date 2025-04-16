@@ -19,7 +19,9 @@ const Header = ({ onSignOut }) => {
         {/* User greeting */}
         <div className="flex-shrink-0">
           {user && (
-            <span className="text-sm text-gray-700">Hello, {displayName}</span>
+            <span className="text-base text-gray-700">
+              Hello, {displayName}
+            </span>
           )}
         </div>
 

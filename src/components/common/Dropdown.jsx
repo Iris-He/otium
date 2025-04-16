@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Dropdown = ({
   options,
@@ -6,10 +7,12 @@ const Dropdown = ({
   onChange,
   placeholder = "Select an option",
   className = "",
-  value = "",
 }) => {
+  const [value, setValue] = useState("");
+
   const handleChange = (e) => {
     const selectedValue = e.target.value;
+    setValue(selectedValue);
     onChange(selectedValue);
   };
 
@@ -17,12 +20,7 @@ const Dropdown = ({
   if (groupedOptions === null) {
     return (
       <div className={`relative ${className}`}>
-        <select
-          disabled
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-gray-400 text-sm appearance-none cursor-not-allowed"
-        >
-          <option>Loading...</option>
-        </select>
+        <LoadingSpinner message="Loading options..." />
       </div>
     );
   }

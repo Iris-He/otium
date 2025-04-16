@@ -96,11 +96,8 @@ const BaseTechnique = ({
   };
 
   return (
-    <div className="relative h-full flex flex-col">
-      {/* Remove or modify this backdrop */}
-      <div className="fixed inset-0 backdrop-blur-sm -z-10" />
-
-      <div className="relative px-6 py-4 flex-grow flex flex-col">
+    <div className="relative h-full flex flex-col rounded-lg p-6">
+      <div className="relative flex-grow flex flex-col">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 z-10"

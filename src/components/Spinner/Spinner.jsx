@@ -84,11 +84,15 @@ const Spinner = ({
 
         {/* Lemon Indicator */}
         <div
-          className="absolute top-0 left-1/2 -ml-4 text-2xl"
-          style={{ filter: "drop-shadow(2px 2px 2px rgba(0,0,0,0.15))" }}
-        >
-          <RiLeafFill className="text-lime-400 text-3xl rotate-90" />
-        </div>
+          className="absolute top-0 left-1/2 -ml-4 w-8 h-8" // Adjust size as needed
+          style={{
+            backgroundImage: "url('/indicator.png')",
+            backgroundSize: "550% 145%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            filter: "drop-shadow(2px 2px 2px rgba(0,0,0,0.15))",
+          }}
+        />
       </div>
 
       {/* Dropdown */}

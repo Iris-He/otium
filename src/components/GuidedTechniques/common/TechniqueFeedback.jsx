@@ -30,15 +30,13 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
   }, [user, techniqueId]);
 
   const handleSubmit = () => {
-    if (!user || user.isGuest) {
-      return;
-    }
+    if (!user || user.isGuest) return;
 
     const feedbackData = {
       rating,
       anxietyLevel,
       anxietyContext: anxietyContext.trim() || null,
-      isFavorite: isFavorite && !isAlreadyFavorited, // Only mark as favorite if it's not already favorited
+      isFavorite: isFavorite && !isAlreadyFavorited,
       techniqueId: Number(techniqueId),
       techniqueName: technique?.title,
       userId: user.id,
@@ -54,7 +52,6 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
     onSubmit(feedbackData);
   };
 
-  // If user is not logged in or is a guest, show appropriate message
   if (!user || user.isGuest) {
     return (
       <div className="text-center space-y-4">
@@ -69,19 +66,19 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
   }
 
   return (
-    <BackgroundWithLemons className="space-y-6 bg-white/95 backdrop-blur-md rounded-lg p-6">
+    <BackgroundWithLemons className="space-y-4 sm:space-y-6 backdrop-blur-md rounded-lg p-4 sm:p-6 max-w-md mx-auto">
       <div className="text-center space-y-4">
-        <h3 className="text-xl font-serif text-gray-800">
+        <h3 className="text-lg sm:text-xl font-serif text-gray-800">
           Did it help you feel better?
         </h3>
-        <div className="flex justify-center space-x-2">
+        <div className="flex justify-center space-x-1 sm:space-x-2">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
               onClick={() => setRating(star)}
               onMouseEnter={() => setHoveredRating(star)}
               onMouseLeave={() => setHoveredRating(0)}
-              className={`text-2xl transition-colors duration-200 ${
+              className={`text-xl sm:text-2xl transition-colors duration-200 p-1 sm:p-2 ${
                 star <= (hoveredRating || rating)
                   ? "text-yellow-400"
                   : "text-gray-300"
@@ -93,17 +90,17 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
         </div>
 
         <div className="mt-4">
-          <h4 className="text-lg font-serif text-gray-800 mb-2">
-            How anxious were you feeling?
+          <h4 className="text-lg sm:text-xl font-serif text-gray-800 mb-2">
+            How anxious were you before trying this technique?
           </h4>
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center space-x-1 sm:space-x-2">
             {[1, 2, 3, 4, 5].map((level) => (
               <button
                 key={level}
                 onClick={() => setAnxietyLevel(level)}
                 onMouseEnter={() => setHoveredAnxietyLevel(level)}
                 onMouseLeave={() => setHoveredAnxietyLevel(0)}
-                className={`text-2xl transition-colors duration-200 ${
+                className={`text-xl sm:text-2xl transition-colors duration-200 p-1 sm:p-2 ${
                   level <= (hoveredAnxietyLevel || anxietyLevel)
                     ? "text-blue-400"
                     : "text-gray-300"
@@ -129,7 +126,7 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
         </div>
 
         <div className="mt-4">
-          <h4 className="text-lg font-serif text-gray-800 mb-2">
+          <h4 className="text-lg sm:text-xl font-serif text-gray-800 mb-2">
             What triggered your anxiety? (optional)
           </h4>
           <textarea
@@ -144,14 +141,14 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
         {!isAlreadyFavorited && (
           <button
             onClick={() => setIsFavorite(!isFavorite)}
-            className={`mt-4 flex items-center justify-center space-x-2 mx-auto px-4 py-2 rounded-full transition-all duration-300 ${
+            className={`mt-4 flex items-center justify-center space-x-2 mx-auto px-3 sm:px-4 py-2 rounded-full transition-all duration-300 ${
               isFavorite
                 ? "bg-pink-50 text-pink-500"
                 : "bg-gray-50 text-gray-400 hover:bg-gray-100"
             }`}
           >
             <svg
-              className={`w-5 h-5 transition-transform duration-300 ${
+              className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${
                 isFavorite ? "scale-110" : "scale-100"
               }`}
               fill={isFavorite ? "currentColor" : "none"}
@@ -166,7 +163,7 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               />
             </svg>
-            <span className="font-medium">
+            <span className="text-sm sm:text-base font-medium">
               {isFavorite ? "Added to favorites" : "Add to favorites"}
             </span>
           </button>
@@ -174,7 +171,7 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
       </div>
       <div className="flex justify-center space-x-3">
         <Button onClick={handleSubmit} variant="lime">
-          Submit & Return
+          Save
         </Button>
         <Button onClick={onSkip} variant="secondary">
           Skip

@@ -64,25 +64,23 @@ const GuidedTechnique = ({
   );
 
   return (
-    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
-      <BaseTechnique
-        technique={technique}
-        steps={[
-          {
-            count: 1,
-            prompt: "emotions you're feeling",
-            summaryTitle: "Your emotional awareness check-in",
-          },
-        ]}
-        onClose={onClose}
-        onReturnToSpinner={onReturnToSpinner}
-        onFeedbackSubmit={onFeedbackSubmit}
-        renderCustomProgress={renderCustomProgress}
-        renderCustomSummary={renderCustomSummary}
-        showFeedback={showFeedback}
-        setShowFeedback={setShowFeedback}
-      />
-    </BackgroundWithLemons>
+    <BaseTechnique
+      technique={technique}
+      steps={[
+        {
+          count: 1,
+          prompt: "emotions you're feeling",
+          summaryTitle: "Your emotional awareness check-in",
+        },
+      ]}
+      onClose={onClose}
+      onReturnToSpinner={onReturnToSpinner}
+      onFeedbackSubmit={onFeedbackSubmit}
+      renderCustomProgress={renderCustomProgress}
+      renderCustomSummary={renderCustomSummary}
+      showFeedback={showFeedback}
+      setShowFeedback={setShowFeedback}
+    />
   );
 };
 

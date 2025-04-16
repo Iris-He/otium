@@ -8,6 +8,7 @@ import TechniqueUsage from "./TechniqueUsage";
 import RecentActivity from "./RecentActivity";
 import TimeRangeToggle from "./TimeRangeToggle";
 import { getUserInsights } from "../../lib/supabaseClient";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const UserInsights = ({
   insights: initialInsights,
@@ -39,10 +40,7 @@ const UserInsights = ({
   if (isLoading) {
     return (
       <Modal onClose={onClose}>
-        <div className="flex flex-col items-center justify-center min-h-[300px]">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-400 mb-4"></div>
-          <p className="text-gray-600">Loading your insights...</p>
-        </div>
+        <LoadingSpinner message="Loading your insights..." />
       </Modal>
     );
   }

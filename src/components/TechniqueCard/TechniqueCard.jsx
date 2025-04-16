@@ -1,6 +1,7 @@
 import React, { useState, lazy, Suspense } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
 import Button from "../common/Button";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 // Use Vite's glob import to dynamically load all technique components
 const techniqueModules = import.meta.glob(
@@ -66,7 +67,7 @@ const TechniqueCard = ({
       }`}
     >
       {showGuided && GuidedTechnique && (
-        <Suspense fallback={<div className="text-center">Loading...</div>}>
+        <Suspense fallback={<LoadingSpinner message="Loading technique..." />}>
           <div className="absolute inset-x-0 top-20 bottom-16 z-50 bg-transparent rounded-lg mx-4 flex items-center justify-center">
             <div className="w-full max-w-2xl">
               <GuidedTechnique
