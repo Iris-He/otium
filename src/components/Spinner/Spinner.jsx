@@ -3,6 +3,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import groundingTechniques from "../../data/groundingTechniques";
 import Dropdown from "../common/Dropdown";
 import { getFavoriteTechniques } from "../../lib/supabaseClient";
+import { RiLeafFill } from "react-icons/ri";
 
 const Spinner = ({
   onSpin,
@@ -86,7 +87,7 @@ const Spinner = ({
           className="absolute top-0 left-1/2 -ml-4 text-2xl"
           style={{ filter: "drop-shadow(2px 2px 2px rgba(0,0,0,0.15))" }}
         >
-          📍
+          <RiLeafFill className="text-lime-400 text-3xl rotate-90" />
         </div>
       </div>
 
