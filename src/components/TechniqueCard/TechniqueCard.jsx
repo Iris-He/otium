@@ -65,7 +65,7 @@ const TechniqueCard = ({
     <Modal onClose={onReturnToSpinner}>
       {showGuided && GuidedTechnique ? (
         <Suspense fallback={<LoadingSpinner message="Loading technique..." />}>
-          <div className="w-full max-w-2xl">
+          <div className="w-full">
             <GuidedTechnique
               technique={technique}
               onClose={() => setShowGuided(false)}
@@ -75,7 +75,7 @@ const TechniqueCard = ({
           </div>
         </Suspense>
       ) : (
-        <div className="w-full max-w-xl">
+        <div className="w-full">
           <h2 className="font-serif text-2xl text-gray-800 text-center mb-4">
             {technique.title}
           </h2>

@@ -30,9 +30,9 @@ const GuidedTechnique = ({
     switch (stage) {
       case "setup":
         return (
-          <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
-            <div className="text-center space-y-4 mb-6">
-              <h3 className="text-xl font-serif text-gray-800">
+          <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
+            <div className="text-center space-y-2 sm:space-y-3 mb-4 sm:mb-5">
+              <h3 className="text-lg sm:text-xl font-serif text-gray-800">
                 Mindful Object Observation
               </h3>
               <p className="text-sm text-gray-500">
@@ -48,7 +48,7 @@ const GuidedTechnique = ({
 
       case "countdown":
         return (
-          <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+          <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
             <CountdownTimer
               totalSeconds={totalSeconds}
               onComplete={handleTimerComplete}
@@ -58,7 +58,7 @@ const GuidedTechnique = ({
 
       case "reflection":
         return (
-          <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+          <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
             <ReflectionStage
               inputs={inputs}
               handleInputChange={updateInputs}
@@ -73,7 +73,7 @@ const GuidedTechnique = ({
   };
 
   const renderCustomSummary = ({ resetForm }) => (
-    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
       <TechniqueSummary
         title="Great job with your mindful observation!"
         description="Remember that meaningful objects can help ground you in the present moment whenever you need support."
@@ -89,7 +89,7 @@ const GuidedTechnique = ({
   );
 
   return (
-    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
       <BaseTechnique
         technique={technique}
         steps={[

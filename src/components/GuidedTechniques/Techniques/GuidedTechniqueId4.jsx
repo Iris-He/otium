@@ -29,7 +29,7 @@ const GuidedTechnique = ({
     };
 
     return (
-      <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+      <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
         <InputCollectionProgress
           title="Mental Categories Exercise"
           description={[

@@ -29,7 +29,7 @@ const GuidedTechnique = ({
     };
 
     return (
-      <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+      <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
         <InputCollectionProgress
           title="Name Your Emotions"
           description={[
@@ -52,7 +52,7 @@ const GuidedTechnique = ({
   };
 
   const renderCustomSummary = ({ resetForm }) => (
-    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
       <TechniqueSummary
         title="Emotional Awareness Complete!"
         description="Great job identifying and acknowledging your emotions"

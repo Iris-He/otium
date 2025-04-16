@@ -4,20 +4,24 @@ import { useAuthContext } from "../../../contexts/AuthContext";
 
 export const InputFields = ({ step, inputs, onInputChange }) => {
   const currentInputs = inputs || {};
-  return Array(step.count)
-    .fill(0)
-    .map((_, index) => (
-      <input
-        key={index}
-        type="text"
-        value={currentInputs[index] || ""}
-        onChange={(e) => onInputChange(index, e.target.value)}
-        placeholder={`${step.inputPrompt} ${index + 1}${
-          step.inputSuffix || ""
-        }`}
-        className="w-full p-2 mb-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-      />
-    ));
+  return (
+    <div className="space-y-2 sm:space-y-3">
+      {Array(step.count)
+        .fill(0)
+        .map((_, index) => (
+          <input
+            key={index}
+            type="text"
+            value={currentInputs[index] || ""}
+            onChange={(e) => onInputChange(index, e.target.value)}
+            placeholder={`${step.inputPrompt} ${index + 1}${
+              step.inputSuffix || ""
+            }`}
+            className="w-full p-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          />
+        ))}
+    </div>
+  );
 };
 
 export const CompletionButtons = ({ onReset, onReturnToSpinner }) => {

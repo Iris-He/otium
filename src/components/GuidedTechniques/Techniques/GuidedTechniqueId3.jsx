@@ -44,7 +44,7 @@ const GuidedTechnique = ({
     };
 
     return (
-      <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+      <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
         <InputCollectionProgress
           title="Color Scan Exercise"
           description={STEPS[0].instructions}
@@ -63,7 +63,7 @@ const GuidedTechnique = ({
   };
 
   const renderCustomSummary = ({ resetForm }) => (
-    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
       <TechniqueSummary
         title="Great job completing the color scan!"
         description="This exercise helped you focus on the present moment through color observation."
@@ -76,7 +76,7 @@ const GuidedTechnique = ({
   );
 
   return (
-    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-6">
+    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
       <BaseTechnique
         technique={technique}
         steps={STEPS}

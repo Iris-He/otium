@@ -20,12 +20,11 @@ const ProtectedRoute = ({ children }) => {
 
 function AppContent() {
   return (
-    <div className="fixed inset-0 w-full bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-fixed">
-      <div className="absolute inset-0 bg-white/60">
-        <div className="relative min-h-screen w-full text-gray-700 font-sans flex flex-col">
+    <div className="min-h-screen w-full bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-fixed">
+      <div className="min-h-screen w-full bg-white/60">
+        <div className="relative w-full text-gray-700 font-sans flex flex-col">
           <Routes>
             <Route path="/" element={<MainContent />} />
-
             {/* Auth Routes */}
             <Route path="/auth" element={<Auth />} />
             <Route path="/reset-password" element={<ResetPassword />} />

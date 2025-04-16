@@ -28,13 +28,13 @@ const GuidedTechnique = ({
   if (technique.id !== 1) return null;
 
   const renderCustomProgress = ({ handleNext }) => (
-    <BackgroundWithLemons className="space-y-6">
-      <div className="text-center space-y-2">
-        <h3 className="text-xl font-serif text-gray-800">
+    <BackgroundWithLemons className="space-y-3 sm:space-y-4">
+      <div className="text-center space-y-1 sm:space-y-2">
+        <h3 className="text-lg sm:text-xl font-serif text-gray-800">
           {BREATHING_EXERCISE.title}
         </h3>
         {BREATHING_EXERCISE.instructions.map((instruction, i) => (
-          <p key={i} className="text-sm text-gray-400">
+          <p key={i} className="text-xs sm:text-sm text-gray-400">
             {instruction}
           </p>
         ))}
@@ -42,6 +42,7 @@ const GuidedTechnique = ({
       <BreathingAnimation
         cycles={BREATHING_EXERCISE.cycles}
         onComplete={handleNext}
+        compact={true}
       />
     </BackgroundWithLemons>
   );
