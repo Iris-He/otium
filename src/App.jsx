@@ -5,7 +5,6 @@ import Spinner from "./components/Spinner/Spinner";
 import TechniqueCard from "./components/TechniqueCard/TechniqueCard";
 import Footer from "./components/Footer/Footer";
 import Auth from "./components/Auth/Auth";
-import Dropdown from "./components/common/Dropdown";
 import { useTechniqueSelection } from "./hooks/useTechniqueSelection";
 import {
   saveFavoriteTechnique,
