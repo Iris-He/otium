@@ -55,9 +55,7 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
   if (!user || user.isGuest) {
     return (
       <div className="text-center space-y-4">
-        <p className="text-gray-600">
-          Please log in to save favorites and provide feedback.
-        </p>
+        <p className="text-gray-600">Please log in to save and add favorits.</p>
         <Button onClick={onSkip} variant="secondary">
           Return to Spinner
         </Button>
@@ -68,10 +66,10 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
   return (
     <BackgroundWithLemons className="space-y-4 backdrop-blur-md rounded-lg p-3 sm:p-4 max-w-md mx-auto">
       <div className="flex flex-col space-y-4 max-h-[80vh] overflow-y-auto">
-        <div className="text-center space-y-3">
-          <h3 className="text-lg sm:text-xl font-serif text-gray-800">
+        <div className="space-y-3">
+          <h4 className="text-base sm:text-lg text-gray-800">
             Did it help you feel better?
-          </h3>
+          </h4>
           <div className="flex justify-center space-x-1">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
@@ -89,10 +87,14 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
               </button>
             ))}
           </div>
+          <div className="flex justify-between text-sm text-gray-500">
+            <span>Not helpful</span>
+            <span>Very helpful</span>
+          </div>
         </div>
 
         <div className="space-y-3">
-          <h4 className="text-base sm:text-lg font-serif text-gray-800">
+          <h4 className="text-base sm:text-lg text-gray-800">
             How anxious were you before trying this technique?
           </h4>
           <div className="flex justify-center space-x-1 sm:space-x-2">
@@ -112,19 +114,10 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
               </button>
             ))}
           </div>
-          <p className="text-xs text-gray-500 mt-1">
-            {anxietyLevel === 1
-              ? "Barely noticeable"
-              : anxietyLevel === 2
-              ? "Mild"
-              : anxietyLevel === 3
-              ? "Moderate"
-              : anxietyLevel === 4
-              ? "High"
-              : anxietyLevel === 5
-              ? "Severe"
-              : "Select a level"}
-          </p>
+          <div className="flex justify-between text-sm text-gray-500">
+            <span>I wasn't anxious</span>
+            <span>Very anxious</span>
+          </div>
         </div>
 
         <textarea

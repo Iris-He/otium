@@ -67,8 +67,7 @@ const UserInsights = ({
     <Modal onClose={onClose}>
       <div className="py-2">
         <h2 className="text-2xl font-serif text-gray-800 mb-2 text-center">
-          Your Insights{" "}
-          {timeRange === "recent" ? "(Last 14 Days)" : "(All Time)"}
+          Your Insights
         </h2>
 
         <TimeRangeToggle

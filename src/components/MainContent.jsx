@@ -58,48 +58,51 @@ const MainContent = () => {
   };
 
   return (
-    <div className="flex flex-col h-full min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <Header />
       <div className="flex-1 flex flex-col">
-        <main className="flex-1 container mx-auto px-4 py-8">
-          {/* Spinner Section */}
-          <div className="spinner-container">
-            <Spinner
-              onSpin={handleSpin}
-              rotationDegree={rotationDegree}
-              spinning={spinning}
-              onSelectTechnique={handleSelectTechnique}
-              dropdownValue={dropdownValue}
-              setDropdownValue={setDropdownValue}
+        <main className="flex-1 container mx-auto px-4 flex flex-col">
+          {/* Adjust vertical spacing based on screen size */}
+          <div className="flex-1 flex flex-col justify-center gap-4 sm:gap-8 py-2 sm:py-8">
+            {/* Spinner Section - reduce size on mobile */}
+            <div className="spinner-container flex items-center justify-center">
+              <div className="w-[85%] sm:w-full max-w-md">
+                <Spinner
+                  onSpin={handleSpin}
+                  rotationDegree={rotationDegree}
+                  spinning={spinning}
+                  onSelectTechnique={handleSelectTechnique}
+                  dropdownValue={dropdownValue}
+                  setDropdownValue={setDropdownValue}
+                />
+              </div>
+            </div>
+
+            {/* Technique Card */}
+            <TechniqueCard
+              technique={selectedTechnique}
+              onNewTechnique={handleNewTechnique}
+              onReturnToSpinner={handleReturnToSpinner}
+              visible={showCard}
             />
+
+            {/* Insights Modal */}
+            {showInsights && (
+              <UserInsights
+                insights={insightsData}
+                onClose={() => setShowInsights(false)}
+                isLoading={isLoadingInsights}
+                userId={user?.id}
+              />
+            )}
           </div>
-
-          {/* Technique Card */}
-          <TechniqueCard
-            technique={selectedTechnique}
-            onNewTechnique={handleNewTechnique}
-            onReturnToSpinner={handleReturnToSpinner}
-            visible={showCard}
-          />
-
-          {/* Insights Modal */}
-          {showInsights && (
-            <UserInsights
-              insights={insightsData}
-              onClose={() => setShowInsights(false)}
-              isLoading={isLoadingInsights}
-              userId={user?.id}
-            />
-          )}
         </main>
 
-        {/* Only show footer when no technique is active */}
+        {/* Reduce footer padding on mobile */}
         {!showCard && (
-          <div className="mt-auto">
-            {" "}
-            {/* Added wrapper */}
+          <footer className="py-2 sm:py-4 mt-auto">
             <Footer onViewInsights={handleViewInsights} />
-          </div>
+          </footer>
         )}
       </div>
     </div>

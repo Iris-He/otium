@@ -31,9 +31,9 @@ const GuidedTechnique = ({
     return (
       <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
         <InputCollectionProgress
-          title="Mental Categories Exercise"
+          title="Mental Categories"
           description={[
-            "Choose a category (like animals, cities, or foods)",
+            "Choose a category (animals, cities, or foods, etc.)",
             "List as many items as you can think of",
             "Continue until you feel more grounded",
           ]}
@@ -42,7 +42,7 @@ const GuidedTechnique = ({
           onInputChange={onInputChange}
           onSubmit={onSubmit}
           onNext={handleNext}
-          placeholder="Enter an item in your chosen category..."
+          placeholder="Enter an item..."
           bubbleColorClasses="bg-purple-100 text-purple-800"
           buttonTheme="lime"
           isLastStep={true} // Single step exercise

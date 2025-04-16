@@ -10,7 +10,7 @@ const STEPS = [
     count: 5,
     prompt: "objects of the same color",
     inputPrompt: "Object",
-    inputSuffix: " and its unique qualities... (optional)",
+    inputSuffix: " and any details",
     instructions: [
       "Write down 5 objects of the same color, noticing their shade and texture",
       "Add items one at a time",
