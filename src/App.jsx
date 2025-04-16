@@ -14,7 +14,7 @@ import {
 } from "./lib/supabaseClient";
 import UserInsights from "./components/Insights/UserInsights";
 import groundingTechniques from "./data/groundingTechniques";
-import LoadingSpinner from "./components/common/LoadingSpinner";
+import LoadingSpinner from "./components/common/LoadingSpinner.jsx";
 
 function App() {
   return (
