@@ -103,6 +103,7 @@ const Spinner = ({
           placeholder="Or choose a technique..."
           className="w-full"
           value={dropdownValue}
+          key={dropdownValue} // Force re-render when value changes
         />
       </div>
     </div>

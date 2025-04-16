@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 
 const Dropdown = ({
@@ -7,12 +7,10 @@ const Dropdown = ({
   onChange,
   placeholder = "Select an option",
   className = "",
+  value = "",
 }) => {
-  const [value, setValue] = useState("");
-
   const handleChange = (e) => {
     const selectedValue = e.target.value;
-    setValue(selectedValue);
     onChange(selectedValue);
   };
 
@@ -30,9 +28,11 @@ const Dropdown = ({
       <select
         value={value}
         onChange={handleChange}
-        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-gray-400 text-sm appearance-none cursor-pointer"
+        className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-sm appearance-none cursor-pointer ${
+          value ? "text-gray-800" : "text-gray-400"
+        }`}
       >
-        <option value="" disabled>
+        <option value="" disabled className="text-gray-400">
           {placeholder}
         </option>
 
