@@ -15,6 +15,7 @@ import {
 import UserInsights from "./components/Insights/UserInsights";
 import groundingTechniques from "./data/groundingTechniques";
 import LoadingSpinner from "./components/common/LoadingSpinner";
+import Button from "./components/common/Button";
 
 function App() {
   return (
