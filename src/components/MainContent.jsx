@@ -58,42 +58,50 @@ const MainContent = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col h-full min-h-screen">
       <Header />
-      <main className="flex-1 container mx-auto px-4 py-8">
-        {/* Spinner Section */}
-        <div className="spinner-container">
-          <Spinner
-            onSpin={handleSpin}
-            rotationDegree={rotationDegree}
-            spinning={spinning}
-            onSelectTechnique={handleSelectTechnique}
-            dropdownValue={dropdownValue}
-            setDropdownValue={setDropdownValue}
-          />
-        </div>
+      <div className="flex-1 flex flex-col">
+        <main className="flex-1 container mx-auto px-4 py-8">
+          {/* Spinner Section */}
+          <div className="spinner-container">
+            <Spinner
+              onSpin={handleSpin}
+              rotationDegree={rotationDegree}
+              spinning={spinning}
+              onSelectTechnique={handleSelectTechnique}
+              dropdownValue={dropdownValue}
+              setDropdownValue={setDropdownValue}
+            />
+          </div>
 
-        {/* Technique Card */}
-        <TechniqueCard
-          technique={selectedTechnique}
-          onNewTechnique={handleNewTechnique}
-          onReturnToSpinner={handleReturnToSpinner}
-          visible={showCard}
-        />
-
-        {/* Insights Modal */}
-        {showInsights && (
-          <UserInsights
-            insights={insightsData}
-            onClose={() => setShowInsights(false)}
-            isLoading={isLoadingInsights}
-            userId={user?.id}
+          {/* Technique Card */}
+          <TechniqueCard
+            technique={selectedTechnique}
+            onNewTechnique={handleNewTechnique}
+            onReturnToSpinner={handleReturnToSpinner}
+            visible={showCard}
           />
+
+          {/* Insights Modal */}
+          {showInsights && (
+            <UserInsights
+              insights={insightsData}
+              onClose={() => setShowInsights(false)}
+              isLoading={isLoadingInsights}
+              userId={user?.id}
+            />
+          )}
+        </main>
+
+        {/* Only show footer when no technique is active */}
+        {!showCard && (
+          <div className="mt-auto">
+            {" "}
+            {/* Added wrapper */}
+            <Footer onViewInsights={handleViewInsights} />
+          </div>
         )}
-      </main>
-
-      {/* Only show footer when no technique is active */}
-      {!showCard && <Footer onViewInsights={handleViewInsights} />}
+      </div>
     </div>
   );
 };

@@ -20,9 +20,9 @@ const ProtectedRoute = ({ children }) => {
 
 function AppContent() {
   return (
-    <div className="relative min-h-screen w-full bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-fixed">
+    <div className="fixed inset-0 w-full bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-fixed">
       <div className="absolute inset-0 bg-white/60">
-        <div className="relative flex flex-col min-h-screen w-full text-gray-700 font-sans">
+        <div className="relative min-h-screen w-full text-gray-700 font-sans flex flex-col">
           <Routes>
             <Route path="/" element={<MainContent />} />
 

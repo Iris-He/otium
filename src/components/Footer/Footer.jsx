@@ -8,7 +8,7 @@ const Footer = ({ onViewInsights }) => {
   const showInsights = user && !user.isGuest;
 
   return (
-    <footer className="w-full py-4 bg-transparent text-center relative z-10 mt-8 sm:mt-4">
+    <footer className="w-full py-4 text-center relative z-10 mt-8 sm:mt-4 bg-transparent">
       {showInsights && (
         <div className="mb-4 relative z-20">
           <Button

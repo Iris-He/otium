@@ -98,22 +98,6 @@ const BaseTechnique = ({
   return (
     <div className="relative h-full flex flex-col rounded-lg p-6">
       <div className="relative flex-grow flex flex-col">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 z-10"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
         <div className="flex-grow flex flex-col justify-center">
           {renderContent()}
         </div>
