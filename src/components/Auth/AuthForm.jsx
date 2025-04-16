@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../common/Button";
+import supabase from "../../lib/supabaseClient";
 
 const AuthForm = ({
   isSignUp,
@@ -10,14 +11,79 @@ const AuthForm = ({
   onToggleSignUp,
   onProceedAsGuest,
 }) => {
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [resetEmailSent, setResetEmailSent] = useState(false);
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(
+        formData.email,
+        {
+          redirectTo: `${window.location.origin}/update-password`,
+        }
+      );
+
+      if (error) throw error;
+      setResetEmailSent(true);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  if (isForgotPassword) {
+    return (
+      <div className="space-y-4">
+        {resetEmailSent ? (
+          <div className="text-center">
+            <p className="mb-4">
+              Check your email for the password reset link.
+            </p>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setIsForgotPassword(false);
+                setResetEmailSent(false);
+              }}
+              className="w-full"
+            >
+              Return to Sign In
+            </Button>
+          </div>
+        ) : (
+          <form onSubmit={handleForgotPassword} className="space-y-4">
+            <div>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={onInputChange}
+                placeholder="Email"
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full">
+              Send Reset Link
+            </Button>
+            <button
+              type="button"
+              onClick={() => setIsForgotPassword(false)}
+              className="text-yellow-600 hover:text-yellow-500 text-sm w-full"
+            >
+              Back to Sign In
+            </button>
+          </form>
+        )}
+      </div>
+    );
+  }
+
   return (
     <>
       <form onSubmit={onSubmit} className="space-y-4">
         {isSignUp && (
           <div>
-            <label htmlFor="displayName" className="sr-only">
-              User Name
-            </label>
             <input
               id="displayName"
               type="text"
@@ -32,9 +98,6 @@ const AuthForm = ({
         )}
 
         <div>
-          <label htmlFor="email" className="sr-only">
-            Email
-          </label>
           <input
             id="email"
             type="email"
@@ -48,22 +111,7 @@ const AuthForm = ({
           />
         </div>
 
-        <div aria-hidden="true" className="hidden">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            autoComplete="username"
-            value={formData.email}
-            onChange={onInputChange}
-          />
-        </div>
-
         <div>
-          <label htmlFor="password" className="sr-only">
-            Password
-          </label>
           <input
             id="password"
             type="password"
@@ -79,9 +127,6 @@ const AuthForm = ({
 
         {isSignUp && (
           <div>
-            <label htmlFor="confirmPassword" className="sr-only">
-              Confirm Password
-            </label>
             <input
               id="confirmPassword"
               type="password"
@@ -105,27 +150,38 @@ const AuthForm = ({
         <Button type="submit" className="w-full">
           {isSignUp ? "Sign Up" : "Sign In"}
         </Button>
+
+        {!isSignUp && (
+          <div className="flex justify-between items-center text-sm">
+            <button
+              type="button"
+              onClick={() => setIsForgotPassword(true)}
+              className="text-yellow-600 hover:text-yellow-500"
+            >
+              Forgot Password?
+            </button>
+            <button
+              type="button"
+              onClick={onToggleSignUp}
+              className="text-yellow-600 hover:text-yellow-500"
+            >
+              Don't have an account? Sign up
+            </button>
+          </div>
+        )}
       </form>
 
-      <div className="mt-4 text-center">
-        <button
-          onClick={onToggleSignUp}
-          className="text-yellow-600 hover:text-yellow-500 text-sm"
-        >
-          {isSignUp
-            ? "Already have an account? Sign in"
-            : "Don't have an account? Sign up"}
-        </button>
-      </div>
-      <div className="mt-6">
-        <Button
-          variant="secondary"
-          onClick={onProceedAsGuest}
-          className="w-full"
-        >
-          Continue as Guest
-        </Button>
-      </div>
+      {!isSignUp && (
+        <div className="mt-6">
+          <Button
+            variant="secondary"
+            onClick={onProceedAsGuest}
+            className="w-full mb-6"
+          >
+            Continue as Guest
+          </Button>
+        </div>
+      )}
     </>
   );
 };

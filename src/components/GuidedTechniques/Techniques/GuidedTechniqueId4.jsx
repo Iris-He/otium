@@ -45,6 +45,7 @@ const GuidedTechnique = ({
           placeholder="Enter an item in your chosen category..."
           bubbleColorClasses="bg-purple-100 text-purple-800"
           buttonTheme="lime"
+          isLastStep={true} // Single step exercise
         />
       </BackgroundWithLemons>
     );

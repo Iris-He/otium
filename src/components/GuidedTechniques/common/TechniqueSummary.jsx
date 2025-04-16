@@ -27,7 +27,7 @@ const TechniqueSummary = ({
             variant="lime"
             className="w-full sm:w-auto px-8"
           >
-            Share Reflections
+            Save & Rate
           </Button>
         )}
         {onReset && (

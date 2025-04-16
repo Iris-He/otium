@@ -23,7 +23,7 @@ export const TimerSetup = ({ onStart }) => {
 
   // Generate options for minutes (0-30) and seconds (0-59)
   const minuteOptions = Array.from({ length: 31 }, (_, i) => i);
-  const secondOptions = Array.from({ length: 60 }, (_, i) => i);
+  const secondOptions = Array.from({ length: 12 }, (_, i) => i * 5);
 
   return (
     <div className="space-y-6">

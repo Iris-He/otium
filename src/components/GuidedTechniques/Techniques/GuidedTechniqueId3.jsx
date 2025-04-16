@@ -56,6 +56,7 @@ const GuidedTechnique = ({
           placeholder={`${STEPS[0].inputPrompt}${STEPS[0].inputSuffix}`}
           bubbleColorClasses="bg-yellow-100 text-yellow-800"
           buttonTheme="yellow"
+          isLastStep={true} // Single step exercise
         />
       </BackgroundWithLemons>
     );

@@ -96,6 +96,7 @@ const GuidedTechnique = ({
           placeholder={`${step.inputPrompt}...`}
           bubbleColorClasses="bg-blue-100 text-blue-800"
           buttonTheme="lime"
+          isLastStep={currentStep === STEPS.length - 1}
         />
       </BackgroundWithLemons>
     );

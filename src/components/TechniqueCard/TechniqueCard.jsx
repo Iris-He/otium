@@ -81,7 +81,7 @@ const TechniqueCard = ({
         </Suspense>
       )}
       <div
-        className={`relative w-full max-w-xl bg-white bg-opacity-65 rounded-xl shadow-lg p-6 flex flex-col justify-between z-10 transition-all duration-400 ease-in-out m-4
+        className={`relative w-full max-w-xl bg-white bg-opacity-95 rounded-xl shadow-lg p-6 flex flex-col justify-between z-10 transition-all duration-400 ease-in-out m-4
           ${
             !showGuided && visible
               ? "opacity-100 scale-100"

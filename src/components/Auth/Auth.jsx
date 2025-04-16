@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SocialButtons from "./SocialButtons";
 import Divider from "./Divider";
 import AuthForm from "./AuthForm";
+import ResetPassword from "./ResetPassword";
 import Button from "../common/Button";
 import supabase from "../../lib/supabaseClient";
 
@@ -15,6 +16,7 @@ const Auth = ({ onProceedAsGuest, onSignIn }) => {
   });
   const [error, setError] = useState("");
   const [confirmationSent, setConfirmationSent] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -143,17 +145,16 @@ const Auth = ({ onProceedAsGuest, onSignIn }) => {
     );
   }
 
+  if (isForgotPassword) {
+    return <ResetPassword onBackToSignIn={() => setIsForgotPassword(false)} />;
+  }
+
   return (
     <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-serif text-center mb-6">
         {isSignUp ? "Create Account" : "Welcome Back"}
       </h2>
 
-      <SocialButtons
-        onGoogleSignIn={handleGoogleSignIn}
-        // onAppleSignIn={handleAppleSignIn}
-      />
-      <Divider />
       <AuthForm
         isSignUp={isSignUp}
         formData={formData}
@@ -162,7 +163,15 @@ const Auth = ({ onProceedAsGuest, onSignIn }) => {
         onInputChange={handleInputChange}
         onToggleSignUp={() => setIsSignUp(!isSignUp)}
         onProceedAsGuest={onProceedAsGuest}
+        setIsForgotPassword={setIsForgotPassword}
       />
+
+      {!isForgotPassword && (
+        <>
+          <Divider className="mt-6" />
+          <SocialButtons onGoogleSignIn={handleGoogleSignIn} className="mb-6" />
+        </>
+      )}
     </div>
   );
 };

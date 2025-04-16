@@ -13,6 +13,7 @@ const InputCollectionProgress = ({
   placeholder,
   bubbleColorClasses,
   buttonTheme,
+  isLastStep,
 }) => {
   const descriptions = Array.isArray(description) ? description : [description];
 
@@ -56,7 +57,7 @@ const InputCollectionProgress = ({
               variant={buttonTheme || "primary"}
               className="w-full py-3"
             >
-              Complete
+              {isLastStep ? "Complete" : "Next"}
             </Button>
           )}
         </div>
