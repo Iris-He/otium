@@ -11,7 +11,9 @@ const Dropdown = ({
 }) => {
   const handleChange = (e) => {
     const selectedValue = e.target.value;
-    onChange(selectedValue);
+    if (onChange) {
+      onChange(selectedValue);
+    }
   };
 
   // If groupedOptions is null or undefined, show loading state
@@ -26,7 +28,7 @@ const Dropdown = ({
   return (
     <div className={`relative ${className}`}>
       <select
-        value={value}
+        value={value || ""}
         onChange={handleChange}
         className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-sm appearance-none cursor-pointer ${
           value ? "text-gray-800" : "text-gray-400"

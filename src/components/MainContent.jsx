@@ -13,6 +13,7 @@ import {
   getUserInsights,
   getFavoriteTechniques,
 } from "../lib/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 const MainContent = () => {
   const { user } = useAuthContext();
@@ -20,14 +21,15 @@ const MainContent = () => {
   const {
     spinning,
     selectedTechnique,
+    setSelectedTechnique,
     rotationDegree,
     showCard,
+    setShowCard,
+    dropdownValue,
+    setDropdownValue,
     handleSpin,
     handleNewTechnique,
     handleReturnToSpinner,
-    handleSelectTechnique,
-    dropdownValue,
-    setDropdownValue,
   } = useTechniqueSelection();
   const [showInsights, setShowInsights] = useState(false);
   const [insightsData, setInsightsData] = useState(null);
@@ -46,6 +48,13 @@ const MainContent = () => {
     } finally {
       setIsLoadingInsights(false);
     }
+  };
+
+  const handleSelectTechnique = (technique) => {
+    if (!technique) return;
+
+    setSelectedTechnique(technique);
+    setShowCard(true);
   };
 
   return (

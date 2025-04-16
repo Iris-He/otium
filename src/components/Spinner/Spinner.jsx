@@ -4,17 +4,19 @@ import groundingTechniques from "../../data/groundingTechniques";
 import Dropdown from "../common/Dropdown";
 import { getFavoriteTechniques } from "../../lib/supabaseClient";
 import { RiLeafFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 const Spinner = ({
   onSpin,
   rotationDegree,
   spinning,
-  onSelectTechnique,
   dropdownValue,
   setDropdownValue,
+  onSelectTechnique, // Add this prop
 }) => {
   const { user } = useAuthContext();
   const [groupedTechniques, setGroupedTechniques] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadTechniques = async () => {
@@ -36,7 +38,6 @@ const Spinner = ({
           all: allOptions,
         });
       } else {
-        // For guests, only show all techniques
         const allOptions = groundingTechniques.map((technique) => ({
           value: technique.id.toString(),
           label: technique.title,
@@ -51,9 +52,20 @@ const Spinner = ({
     loadTechniques();
   }, [user]);
 
-  const handleSelectTechnique = (value) => {
-    onSelectTechnique(value);
-    setDropdownValue(""); // Reset after selection
+  const handleSelectTechnique = (techniqueId) => {
+    if (!techniqueId) {
+      setDropdownValue?.("");
+      return;
+    }
+
+    const technique = groundingTechniques.find(
+      (t) => t.id === parseInt(techniqueId)
+    );
+
+    if (technique) {
+      setDropdownValue?.(techniqueId);
+      onSelectTechnique?.(technique);
+    }
   };
 
   return (
@@ -102,7 +114,7 @@ const Spinner = ({
           onChange={handleSelectTechnique}
           placeholder="Or choose a technique..."
           className="w-full"
-          value={dropdownValue}
+          value={dropdownValue || ""} // Provide default value
           key={dropdownValue} // Force re-render when value changes
         />
       </div>

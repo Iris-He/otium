@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { HiOutlineLogout, HiOutlineUser } from "react-icons/hi";
 import { MdEmail, MdLock } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const UserMenu = ({ user, onSignOut }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,11 +19,6 @@ const UserMenu = ({ user, onSignOut }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleUpdateProfile = (type) => {
-    setIsOpen(false);
-    navigate(`/update-${type}`);
-  };
-
   return (
     <div className="relative" ref={menuRef}>
       <button
@@ -37,27 +32,27 @@ const UserMenu = ({ user, onSignOut }) => {
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div className="py-1">
-            <button
-              onClick={() => handleUpdateProfile("profile")}
+            <Link
+              to="/profile"
               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
             >
               <HiOutlineUser className="h-4 w-4" />
               Update Username
-            </button>
-            <button
-              onClick={() => handleUpdateProfile("email")}
+            </Link>
+            <Link
+              to="/profile/email"
               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
             >
               <MdEmail className="h-4 w-4" />
               Update Email
-            </button>
-            <button
-              onClick={() => handleUpdateProfile("password")}
+            </Link>
+            <Link
+              to="/profile/password"
               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
             >
               <MdLock className="h-4 w-4" />
               Update Password
-            </button>
+            </Link>
             <button
               onClick={onSignOut}
               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
