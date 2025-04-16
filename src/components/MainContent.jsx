@@ -5,7 +5,6 @@ import Footer from "./Footer/Footer";
 import Spinner from "./Spinner/Spinner";
 import TechniqueCard from "./TechniqueCard/TechniqueCard";
 import UserInsights from "./Insights/UserInsights";
-import Modal from "./common/Modal";
 import { useTechniqueSelection } from "../hooks/useTechniqueSelection";
 import {
   saveFavoriteTechnique,
@@ -13,11 +12,9 @@ import {
   getUserInsights,
   getFavoriteTechniques,
 } from "../lib/supabaseClient";
-import { useNavigate } from "react-router-dom";
 
 const MainContent = () => {
-  const { user } = useAuthContext();
-  const [showInsightsModal, setShowInsightsModal] = useState(false);
+  const { user, handleSignOut } = useAuthContext();
   const {
     spinning,
     selectedTechnique,
@@ -58,8 +55,8 @@ const MainContent = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
+    <div className="min-h-screen flex flex-col">
+      <Header onSignOut={handleSignOut} />
       <div className="flex-1 flex flex-col">
         <main className="flex-1 container mx-auto px-4 flex flex-col">
           {/* Adjust vertical spacing based on screen size */}

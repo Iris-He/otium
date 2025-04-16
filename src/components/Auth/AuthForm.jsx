@@ -81,7 +81,10 @@ const AuthForm = ({
 
   return (
     <>
-      <form onSubmit={onSubmit} className="space-y-4">
+      <form
+        onSubmit={onSubmit}
+        className="space-y-4 md:space-y-6 max-w-md mx-auto"
+      >
         {isSignUp && (
           <div>
             <input
@@ -91,7 +94,7 @@ const AuthForm = ({
               value={formData.displayName || ""}
               onChange={onInputChange}
               placeholder="User Name"
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
               required={isSignUp}
             />
           </div>
@@ -152,18 +155,18 @@ const AuthForm = ({
         </Button>
 
         {!isSignUp && (
-          <div className="flex justify-between items-center text-sm">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 text-sm md:text-base">
             <button
               type="button"
               onClick={() => setIsForgotPassword(true)}
-              className="text-yellow-600 hover:text-yellow-500"
+              className="text-yellow-600 hover:text-yellow-500 text-center sm:text-left"
             >
               Forgot Password?
             </button>
             <button
               type="button"
               onClick={onToggleSignUp}
-              className="text-yellow-600 hover:text-yellow-500"
+              className="text-yellow-600 hover:text-yellow-500 text-center sm:text-right"
             >
               Don't have an account? Sign up
             </button>
@@ -172,7 +175,7 @@ const AuthForm = ({
       </form>
 
       {!isSignUp && (
-        <div className="mt-6">
+        <div className="mt-6 md:mt-8">
           <Button
             variant="secondary"
             onClick={onProceedAsGuest}

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../contexts/AuthContext";
 import SocialButtons from "./SocialButtons";
 import Divider from "./Divider";
 import AuthForm from "./AuthForm";
@@ -6,7 +8,9 @@ import ResetPassword from "./ResetPassword";
 import Button from "../common/Button";
 import supabase from "../../lib/supabaseClient";
 
-const Auth = ({ onProceedAsGuest, onSignIn }) => {
+const Auth = () => {
+  const navigate = useNavigate();
+  const { handleSignIn, handleProceedAsGuest } = useAuthContext();
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -61,7 +65,8 @@ const Auth = ({ onProceedAsGuest, onSignIn }) => {
           return;
         }
 
-        onSignIn(data.user);
+        handleSignIn(data.user);
+        navigate("/");
       }
     } catch (error) {
       setError(error.message || "An error occurred during authentication");
@@ -84,7 +89,8 @@ const Auth = ({ onProceedAsGuest, onSignIn }) => {
       if (error) throw error;
 
       if (data.user) {
-        onSignIn(data.user);
+        handleSignIn(data.user);
+        navigate("/");
       }
     } catch (error) {
       setError("Failed to sign in with Google");
@@ -150,28 +156,33 @@ const Auth = ({ onProceedAsGuest, onSignIn }) => {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-serif text-center mb-6">
-        {isSignUp ? "Create Account" : "Welcome Back"}
-      </h2>
+    <div className="min-h-screen w-full flex items-center justify-center">
+      <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl font-serif text-center mb-6">
+          {isSignUp ? "Create Account" : "Welcome Back"}
+        </h2>
 
-      <AuthForm
-        isSignUp={isSignUp}
-        formData={formData}
-        error={error}
-        onSubmit={handleSubmit}
-        onInputChange={handleInputChange}
-        onToggleSignUp={() => setIsSignUp(!isSignUp)}
-        onProceedAsGuest={onProceedAsGuest}
-        setIsForgotPassword={setIsForgotPassword}
-      />
+        <AuthForm
+          isSignUp={isSignUp}
+          formData={formData}
+          error={error}
+          onSubmit={handleSubmit}
+          onInputChange={handleInputChange}
+          onToggleSignUp={() => setIsSignUp(!isSignUp)}
+          onProceedAsGuest={handleProceedAsGuest}
+          setIsForgotPassword={setIsForgotPassword}
+        />
 
-      {!isForgotPassword && (
-        <>
-          <Divider className="mt-6" />
-          <SocialButtons onGoogleSignIn={handleGoogleSignIn} className="mb-6" />
-        </>
-      )}
+        {!isForgotPassword && (
+          <>
+            <Divider className="mt-6" />
+            <SocialButtons
+              onGoogleSignIn={handleGoogleSignIn}
+              className="mb-6"
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 };
