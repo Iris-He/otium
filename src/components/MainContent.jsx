@@ -68,7 +68,7 @@ const MainContent = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-[calc(100dvh-var(--safe-area-inset-top)-var(--safe-area-inset-bottom)] flex flex-col">
       <Header onSignOut={handleSignOut} />
       <div className="flex-1 flex flex-col">
         <main className="flex-1 container mx-auto px-4 flex flex-col">
