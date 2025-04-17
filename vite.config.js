@@ -54,6 +54,10 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    headers: {
+      "Service-Worker-Allowed": "/",
+      "Service-Worker": "script",
+    },
   },
   build: {
     outDir: "dist",
