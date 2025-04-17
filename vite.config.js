@@ -9,6 +9,7 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
       manifest: {
+        version: "1.0.0",
         name: "Lemonaid",
         short_name: "Lemonaid",
         description: "Mindfulness and relaxation techniques",
@@ -57,13 +58,13 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 2.5 * 1024 * 1024,
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/your-site\.netlify\.app\/.*/i,
+            urlPattern: /^https:\/\/.*\.netlify\.app\/.*/i,
             handler: "StaleWhileRevalidate",
             options: {
               cacheName: "site-cache",
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 60 * 60, // 1 hour
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 1 week
               },
             },
           },
