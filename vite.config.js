@@ -54,6 +54,7 @@ export default defineConfig({
         skipWaiting: true,
         cleanupOutdatedCaches: true,
         globPatterns: ["**/*.{js,css,html,ico,png,svg,json,woff2}"],
+        maximumFileSizeToCacheInBytes: 2.5 * 1024 * 1024,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/your-site\.netlify\.app\/.*/i,
@@ -80,7 +81,7 @@ export default defineConfig({
   },
   build: {
     outDir: "dist",
-    sourcemap: true,
+    sourcemap: false, // Change this from true to false
   },
   envDir: ".",
   workbox: {
