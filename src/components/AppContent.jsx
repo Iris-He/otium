@@ -20,9 +20,9 @@ const ProtectedRoute = ({ children }) => {
 
 function AppContent() {
   return (
-    <div className="min-h-dvh w-full bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-fixed">
-      <div className="min-h-dvh w-full bg-white/60">
-        <div className="relative w-full text-gray-700 font-sans flex flex-col min-h-[calc(100dvh-var(--safe-area-inset-top)-var(--safe-area-inset-bottom)]">
+    <div className="min-h-screen w-full bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-fixed">
+      <div className="min-h-screen w-full bg-white/60 flex flex-col">
+        <div className="flex-grow relative w-full text-gray-700 font-sans">
           <Routes>
             <Route path="/" element={<MainContent />} />
             {/* Auth Routes */}
