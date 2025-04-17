@@ -5,4 +5,5 @@ export default {
     extend: {},
   },
   plugins: [],
+  darkMode: "class", // This makes dark mode class-based instead of using system preferences
 };
