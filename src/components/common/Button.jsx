@@ -16,6 +16,7 @@ const Button = ({ variant = "primary", onClick, children, className = "" }) => {
     <button
       className={`
         px-4
+        py-2
         rounded-md
         text-sm
         cursor-pointer

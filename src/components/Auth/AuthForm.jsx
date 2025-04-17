@@ -150,28 +150,29 @@ const AuthForm = ({
           </p>
         )}
 
-        <Button type="submit" className="w-full mb-2">
-          {isSignUp ? "Sign Up" : "Sign In"}
-        </Button>
-
         {!isSignUp && (
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 whitespace-nowrap">
-            <button
-              type="button"
+          <div className="flex flex-row justify-between items-center gap-2">
+            <Button type="submit" className="w-full mb-0">
+              {isSignUp ? "Sign Up" : "Sign In"}
+            </Button>
+            <Button
+              type="submit"
               onClick={() => setIsForgotPassword(true)}
-              className="text-sm text-yellow-600 hover:text-yellow-500"
+              className="w-full mb-0"
             >
               Forgot Password?
-            </button>
-            <button
-              type="button"
-              onClick={onToggleSignUp}
-              className="text-sm text-yellow-600 hover:text-yellow-500"
-            >
-              Don't have an account?{" "}
-              <span className="font-medium">Sign up</span>
-            </button>
+            </Button>
           </div>
+        )}
+
+        {!isSignUp && (
+          <Button
+            variant="lime"
+            onClick={onToggleSignUp}
+            className="w-full mt-0 text-sm"
+          >
+            Don't have an account? <span className="font-medium">Sign up</span>
+          </Button>
         )}
       </form>
 
