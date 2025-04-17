@@ -7,11 +7,13 @@ import BackgroundWithLemons from "../../common/BackgroundWithLemons";
 
 const GuidedTechnique = ({
   technique,
-  onClose,
+  currentStep,
+  onNext,
   onReturnToSpinner,
   onFeedbackSubmit,
+  showFeedback,
+  setShowFeedback,
 }) => {
-  const [showFeedback, setShowFeedback] = useState(false);
   const { input, handleSubmit, handleInputChange } = useInputCollection();
 
   const renderCustomProgress = ({
@@ -74,7 +76,8 @@ const GuidedTechnique = ({
           summaryTitle: "Your emotional awareness check-in",
         },
       ]}
-      onClose={onClose}
+      currentStep={currentStep}
+      onNext={onNext}
       onReturnToSpinner={onReturnToSpinner}
       onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}

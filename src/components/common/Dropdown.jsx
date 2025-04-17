@@ -12,7 +12,19 @@ const Dropdown = ({
   const handleChange = (e) => {
     const selectedValue = e.target.value;
     if (onChange) {
-      onChange(selectedValue);
+      // Find the selected option object
+      let selectedOption;
+      if (groupedOptions) {
+        selectedOption =
+          groupedOptions.favorites?.find(
+            (opt) => opt.value === selectedValue
+          ) || groupedOptions.all?.find((opt) => opt.value === selectedValue);
+      } else {
+        selectedOption = options?.find((opt) => opt.value === selectedValue);
+      }
+
+      console.log("Dropdown selected:", selectedOption); // Debug log
+      onChange(selectedOption);
     }
   };
 

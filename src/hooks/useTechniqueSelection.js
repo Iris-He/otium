@@ -5,7 +5,6 @@ export const useTechniqueSelection = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedTechnique, setSelectedTechnique] = useState(null);
   const [rotationDegree, setRotationDegree] = useState(0);
-  const [showCard, setShowCard] = useState(false);
   const [recentTechniques, setRecentTechniques] = useState([]); // Track recent techniques
   const [dropdownValue, setDropdownValue] = useState(""); // Keep dropdown state
 
@@ -36,7 +35,6 @@ export const useTechniqueSelection = () => {
   const handleSpin = () => {
     if (spinning) return;
 
-    setShowCard(false);
     setSpinning(true);
     setSelectedTechnique(null); // Clear current technique
     setDropdownValue(""); // Reset dropdown value
@@ -58,16 +56,11 @@ export const useTechniqueSelection = () => {
         const updated = [technique.id, ...prev];
         return updated.slice(0, 3);
       });
-
-      setTimeout(() => {
-        setShowCard(true);
-      }, 300);
     }, 3000);
   };
 
   // Handle generating a new technique without spinning
   const handleNewTechnique = () => {
-    setShowCard(false);
     setDropdownValue(""); // Reset dropdown value
 
     // Add a quick small spin for visual feedback
@@ -78,13 +71,11 @@ export const useTechniqueSelection = () => {
     setTimeout(() => {
       setSpinning(false);
       setSelectedTechnique(getRandomTechnique());
-      setShowCard(true);
     }, 800);
   };
 
   // Handle returning to spinner
   const handleReturnToSpinner = () => {
-    setShowCard(false);
     setSpinning(false);
     setSelectedTechnique(null);
     setDropdownValue(""); // Reset dropdown value
@@ -97,8 +88,6 @@ export const useTechniqueSelection = () => {
     selectedTechnique,
     setSelectedTechnique,
     rotationDegree,
-    showCard,
-    setShowCard,
     dropdownValue,
     setDropdownValue,
     handleSpin,

@@ -8,6 +8,7 @@ import MainContent from "./MainContent";
 import Auth from "./Auth/Auth";
 import ResetPassword from "./Auth/ResetPassword";
 import UserInsights from "./Insights/UserInsights";
+import TechniquePage from "./GuidedTechniques/TechniquePage";
 
 // Protected Route wrapper
 const ProtectedRoute = ({ children }) => {
@@ -25,6 +26,14 @@ function AppContent() {
         <div className="flex-grow relative w-full text-gray-700 font-sans">
           <Routes>
             <Route path="/" element={<MainContent />} />
+            <Route
+              path="/techniques/:techniqueId"
+              element={<TechniquePage />}
+            />
+            <Route
+              path="/techniques/:techniqueId/p/:stepNumber"
+              element={<TechniquePage />}
+            />
             {/* Auth Routes */}
             <Route path="/auth" element={<Auth />} />
             <Route path="/reset-password" element={<ResetPassword />} />

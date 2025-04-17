@@ -14,6 +14,7 @@ const InputCollectionProgress = ({
   bubbleColorClasses,
   buttonTheme,
   isLastStep,
+  showNextButton = true,
 }) => {
   const descriptions = Array.isArray(description) ? description : [description];
 
@@ -53,7 +54,7 @@ const InputCollectionProgress = ({
           </Button>
         </form>
 
-        {items.length > 0 && (
+        {showNextButton && items.length > 0 && (
           <Button
             onClick={onNext}
             variant={buttonTheme || "primary"}

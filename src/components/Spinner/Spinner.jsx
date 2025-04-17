@@ -52,20 +52,22 @@ const Spinner = ({
     loadTechniques();
   }, [user]);
 
-  const handleSelectTechnique = (techniqueId) => {
-    if (!techniqueId) {
-      setDropdownValue?.("");
-      return;
-    }
+  const handleSelectTechnique = (selectedOption) => {
+    console.log("Spinner handleSelectTechnique:", selectedOption); // Debug log
 
+    if (!selectedOption) return;
+
+    // Find the complete technique object from groundingTechniques
     const technique = groundingTechniques.find(
-      (t) => t.id === parseInt(techniqueId)
+      (t) => t.id === parseInt(selectedOption.value)
     );
 
-    if (technique) {
-      setDropdownValue?.(techniqueId);
-      onSelectTechnique?.(technique);
-    }
+    console.log("Found technique:", technique); // Debug log
+
+    if (!technique) return;
+
+    // Call the parent handler with the complete technique object
+    onSelectTechnique(technique);
   };
 
   return (

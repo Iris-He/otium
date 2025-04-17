@@ -19,31 +19,34 @@ const BREATHING_EXERCISE = {
 
 const GuidedTechnique = ({
   technique,
-  onClose,
+  currentStep,
+  onNext,
   onReturnToSpinner,
   onFeedbackSubmit,
+  showFeedback,
+  setShowFeedback,
 }) => {
-  const [showFeedback, setShowFeedback] = useState(false);
-
   if (technique.id !== 1) return null;
 
   const renderCustomProgress = ({ handleNext }) => (
-    <BackgroundWithLemons className="space-y-3 sm:space-y-4">
-      <div className="text-center space-y-1 sm:space-y-2">
-        <h3 className="text-lg sm:text-xl font-serif text-gray-800">
-          {BREATHING_EXERCISE.title}
-        </h3>
-        {BREATHING_EXERCISE.instructions.map((instruction, i) => (
-          <p key={i} className="text-xs sm:text-sm text-gray-400">
-            {instruction}
-          </p>
-        ))}
+    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
+      <div className="space-y-3 sm:space-y-4">
+        <div className="text-center space-y-1 sm:space-y-2">
+          <h3 className="text-lg sm:text-xl font-serif text-gray-800">
+            {BREATHING_EXERCISE.title}
+          </h3>
+          {BREATHING_EXERCISE.instructions.map((instruction, i) => (
+            <p key={i} className="text-xs sm:text-sm text-gray-400">
+              {instruction}
+            </p>
+          ))}
+        </div>
+        <BreathingAnimation
+          cycles={BREATHING_EXERCISE.cycles}
+          onComplete={handleNext}
+          compact={true}
+        />
       </div>
-      <BreathingAnimation
-        cycles={BREATHING_EXERCISE.cycles}
-        onComplete={handleNext}
-        compact={true}
-      />
     </BackgroundWithLemons>
   );
 
@@ -65,7 +68,8 @@ const GuidedTechnique = ({
     <BaseTechnique
       technique={technique}
       steps={[BREATHING_EXERCISE]}
-      onClose={onClose}
+      currentStep={currentStep}
+      onNext={onNext}
       onReturnToSpinner={onReturnToSpinner}
       onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}

@@ -14,6 +14,8 @@ export const ItemInput = ({
   return (
     <form onSubmit={onSubmit} className="flex gap-2 w-full">
       <input
+        id="item-input"
+        name="item-input"
         type="text"
         value={inputValue}
         onChange={onInputChange} // Remove the arrow function wrapper

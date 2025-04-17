@@ -5,36 +5,42 @@ const groundingTechniques = [
     title: "4-7-8 Breathing",
     description:
       "Breathe in for 4 counts, hold for 7, exhale for 8. Repeat 3 times.",
+    totalSteps: 1,
   },
   {
     id: 2,
     title: "5-4-3-2-1 Technique",
     description:
       "Name 5 things you see, 4 things you can touch, 3 things you hear, 2 things you smell, and 1 thing you taste.",
+    totalSteps: 5,
   },
   {
     id: 3,
     title: "Color Scan",
     description:
       "Look around and find 5 objects of the same color. Notice their different shades and textures.",
+    totalSteps: 1,
   },
   {
     id: 4,
     title: "Mental Categories",
     description:
       "Choose a category (animals, cities, foods) and list items until your mind feels more focused.",
+    totalSteps: 1,
   },
   {
     id: 5,
     title: "Meaningful Touch",
     description:
       "Hold something with personal significance and focus on its texture, weight, and meaning.",
+    totalSteps: 1,
   },
   {
     id: 6,
     title: "Name Your Emotion",
     description:
       "Simply identify and name what you're feeling right now, without judgment.",
+    totalSteps: 1,
   },
   // {
   //   id: 7,

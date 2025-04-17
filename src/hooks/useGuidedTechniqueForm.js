@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-export const useGuidedTechniqueForm = (steps) => {
-  const [currentStep, setCurrentStep] = useState(0);
+export const useGuidedTechniqueForm = (steps, currentStep = 0) => {
   const [inputs, setInputs] = useState(() => {
     // Initialize with empty arrays for each step
     const initialInputs = {};
@@ -10,6 +9,7 @@ export const useGuidedTechniqueForm = (steps) => {
     });
     return initialInputs;
   });
+
   const [isComplete, setIsComplete] = useState(false);
 
   const handleInputChange = (stepIndex, value) => {
@@ -19,39 +19,34 @@ export const useGuidedTechniqueForm = (steps) => {
     }));
   };
 
-  const handleNext = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep((prev) => prev + 1);
-    } else {
-      setIsComplete(true);
-    }
-  };
-
   const hasValidInputs = () => {
-    const currentInput = inputs[currentStep];
-    if (Array.isArray(currentInput)) {
-      return currentInput.length > 0;
+    const currentInputs = inputs[currentStep] || [];
+    const currentStepConfig = steps[currentStep];
+
+    if (!currentStepConfig) return false;
+
+    if (currentStepConfig.count) {
+      return currentInputs.length >= currentStepConfig.count;
     }
-    // Handle string input (like textarea)
-    return currentInput && currentInput.trim().length > 0;
+
+    return currentInputs.length > 0;
   };
 
   const resetForm = () => {
-    setCurrentStep(0);
-    const initialInputs = {};
-    steps.forEach((_, index) => {
-      initialInputs[index] = [];
+    setInputs(() => {
+      const initialInputs = {};
+      steps.forEach((_, index) => {
+        initialInputs[index] = [];
+      });
+      return initialInputs;
     });
-    setInputs(initialInputs);
     setIsComplete(false);
   };
 
   return {
-    currentStep,
     inputs,
     isComplete,
     handleInputChange,
-    handleNext,
     hasValidInputs,
     resetForm,
   };

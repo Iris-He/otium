@@ -11,6 +11,8 @@ export const InputFields = ({ step, inputs, onInputChange }) => {
         .map((_, index) => (
           <input
             key={index}
+            id={`input-${step.inputPrompt}-${index}`}
+            name={`input-${step.inputPrompt}-${index}`}
             type="text"
             value={currentInputs[index] || ""}
             onChange={(e) => onInputChange(index, e.target.value)}

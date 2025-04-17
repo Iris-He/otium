@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import BaseTechnique from "../common/BaseTechnique";
 import { useInputCollection } from "../../../hooks/useInputCollection";
 import InputCollectionProgress from "../common/InputCollectionProgress";
-import TechniqueSummary from "../common/TechniqueSummary";
 import BackgroundWithLemons from "../../common/BackgroundWithLemons";
 
 const STEPS = [
@@ -21,7 +20,6 @@ const STEPS = [
       "Describe their texture or temperature",
       "Add items one at a time",
     ],
-    summaryTitle: "Things you touched",
   },
   {
     count: 3,
@@ -60,28 +58,32 @@ const STEPS = [
 
 const GuidedTechnique = ({
   technique,
-  onClose,
+  currentStep,
+  onNext,
   onReturnToSpinner,
   onFeedbackSubmit,
+  showFeedback,
+  setShowFeedback,
 }) => {
-  const [showFeedback, setShowFeedback] = useState(false);
-  const { input, handleSubmit, handleInputChange } = useInputCollection();
+  const [input, setInput] = useState("");
 
   const renderCustomProgress = ({
     inputs,
     handleInputChange: updateInputs,
     handleNext,
-    currentStep,
   }) => {
     const step = STEPS[currentStep];
     const currentItems = inputs[currentStep] || [];
 
-    const onSubmit = (e) => {
+    const handleSubmit = (e) => {
       e.preventDefault();
-      if (handleSubmit(e)) {
-        updateInputs(currentStep, [...currentItems, input]);
+      if (input.trim()) {
+        updateInputs(currentStep, [...currentItems, input.trim()]);
+        setInput("");
       }
     };
+
+    const isComplete = currentItems.length >= step.count;
 
     return (
       <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
@@ -90,43 +92,30 @@ const GuidedTechnique = ({
           description={step.instructions}
           items={currentItems}
           input={input}
-          onInputChange={handleInputChange}
-          onSubmit={onSubmit}
-          onNext={handleNext}
+          onInputChange={setInput}
+          onSubmit={handleSubmit}
+          onNext={onNext}
           placeholder={`${step.inputPrompt}...`}
           bubbleColorClasses="bg-blue-100 text-blue-800"
           buttonTheme="lime"
           isLastStep={currentStep === STEPS.length - 1}
+          showNextButton={true}
         />
       </BackgroundWithLemons>
     );
   };
 
-  const renderCustomSummary = ({ resetForm }) => (
-    <BackgroundWithLemons className="backdrop-blur-md rounded-lg p-3 sm:p-4">
-      <TechniqueSummary
-        title="Great job completing the 5-4-3-2-1 exercise!"
-        description="Using your senses to ground yourself can help bring you back to the present moment."
-        onReset={resetForm}
-        onReturnToSpinner={onReturnToSpinner}
-        showFeedbackOption={true}
-        onShowFeedback={() => setShowFeedback(true)}
-      />
-    </BackgroundWithLemons>
-  );
-
   return (
     <BaseTechnique
       technique={technique}
       steps={STEPS}
-      onClose={onClose}
+      currentStep={currentStep}
+      onNext={onNext}
       onReturnToSpinner={onReturnToSpinner}
       onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}
-      renderCustomSummary={renderCustomSummary}
       showFeedback={showFeedback}
       setShowFeedback={setShowFeedback}
-      className="bg-transparent" // Add this to override any background
     />
   );
 };

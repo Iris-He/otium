@@ -7,11 +7,13 @@ import BackgroundWithLemons from "../../common/BackgroundWithLemons";
 
 const GuidedTechnique = ({
   technique,
-  onClose,
+  currentStep,
+  onNext,
   onReturnToSpinner,
   onFeedbackSubmit,
+  showFeedback,
+  setShowFeedback,
 }) => {
-  const [showFeedback, setShowFeedback] = useState(false);
   const {
     input,
     handleSubmit,
@@ -72,7 +74,8 @@ const GuidedTechnique = ({
           summaryTitle: "Your category items",
         },
       ]}
-      onClose={onClose}
+      currentStep={currentStep}
+      onNext={onNext}
       onReturnToSpinner={onReturnToSpinner}
       onFeedbackSubmit={onFeedbackSubmit}
       renderCustomProgress={renderCustomProgress}

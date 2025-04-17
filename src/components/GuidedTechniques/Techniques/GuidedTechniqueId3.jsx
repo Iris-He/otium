@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import BaseTechnique from "../common/BaseTechnique";
 import { useInputCollection } from "../../../hooks/useInputCollection";
 import InputCollectionProgress from "../common/InputCollectionProgress";
@@ -7,12 +7,13 @@ import BackgroundWithLemons from "../../common/BackgroundWithLemons";
 
 const STEPS = [
   {
-    count: 5,
+    count: 1, // Changed from 5 to 1
     prompt: "objects of the same color",
     inputPrompt: "Object",
     inputSuffix: " and any details",
     instructions: [
-      "Write down 5 objects of the same color, noticing their shade and texture",
+      "Look for objects of the same color, noticing their shade and texture",
+      "Try to write down 5, but it's okay if you find fewer",
       "Add items one at a time",
       "Click Complete when you're done",
     ],
@@ -22,24 +23,26 @@ const STEPS = [
 
 const GuidedTechnique = ({
   technique,
-  onClose,
+  currentStep,
+  onNext,
   onReturnToSpinner,
   onFeedbackSubmit,
+  showFeedback,
+  setShowFeedback,
 }) => {
-  const [showFeedback, setShowFeedback] = useState(false);
-  const { input, handleSubmit, handleInputChange } = useInputCollection();
+  const {
+    input,
+    handleSubmit,
+    handleInputChange: onInputChange,
+  } = useInputCollection();
 
-  const renderCustomProgress = ({
-    inputs,
-    handleInputChange: updateInputs,
-    handleNext,
-  }) => {
+  const renderCustomProgress = ({ inputs, handleInputChange, handleNext }) => {
     const currentItems = inputs[0] || [];
 
     const onSubmit = (e) => {
       e.preventDefault();
       if (handleSubmit(e)) {
-        updateInputs(0, [...currentItems, input]);
+        handleInputChange(0, [...currentItems, input]);
       }
     };
 
@@ -50,7 +53,7 @@ const GuidedTechnique = ({
           description={STEPS[0].instructions}
           items={currentItems}
           input={input}
-          onInputChange={(e) => handleInputChange(e)}
+          onInputChange={onInputChange}
           onSubmit={onSubmit}
           onNext={handleNext}
           placeholder={`${STEPS[0].inputPrompt}${STEPS[0].inputSuffix}`}
@@ -76,19 +79,18 @@ const GuidedTechnique = ({
   );
 
   return (
-    <BackgroundWithLemons className="bg-white/95 backdrop-blur-md rounded-lg p-3 sm:p-4">
-      <BaseTechnique
-        technique={technique}
-        steps={STEPS}
-        onClose={onClose}
-        onReturnToSpinner={onReturnToSpinner}
-        onFeedbackSubmit={onFeedbackSubmit}
-        renderCustomProgress={renderCustomProgress}
-        renderCustomSummary={renderCustomSummary}
-        showFeedback={showFeedback}
-        setShowFeedback={setShowFeedback}
-      />
-    </BackgroundWithLemons>
+    <BaseTechnique
+      technique={technique}
+      steps={STEPS}
+      currentStep={currentStep}
+      onNext={onNext}
+      onReturnToSpinner={onReturnToSpinner}
+      onFeedbackSubmit={onFeedbackSubmit}
+      renderCustomProgress={renderCustomProgress}
+      renderCustomSummary={renderCustomSummary}
+      showFeedback={showFeedback}
+      setShowFeedback={setShowFeedback}
+    />
   );
 };
 

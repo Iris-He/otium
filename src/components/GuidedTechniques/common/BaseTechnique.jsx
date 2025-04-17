@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { useAuthContext } from "../../../contexts/AuthContext";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useGuidedTechniqueForm } from "../../../hooks/useGuidedTechniqueForm";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import Progress from "./components/Progress";
+import TechniqueFeedback from "./TechniqueFeedback"; // Fix the import path
 import Button from "../../common/Button";
-import TechniqueFeedback from "../common/TechniqueFeedback";
 
 const BaseTechnique = ({
   technique,
   steps,
-  onClose,
+  currentStep,
+  onNext,
   onReturnToSpinner,
   renderCustomProgress,
   renderCustomSummary,
@@ -15,24 +18,28 @@ const BaseTechnique = ({
   showFeedback,
   setShowFeedback,
 }) => {
+  const navigate = useNavigate();
   const { user } = useAuthContext();
   const showFeedbackOption = user && !user.isGuest;
 
-  const {
-    currentStep,
-    inputs,
-    isComplete,
-    handleInputChange,
-    handleNext,
-    hasValidInputs,
-    resetForm,
-  } = useGuidedTechniqueForm(steps);
+  const { inputs, isComplete, handleInputChange, hasValidInputs, resetForm } =
+    useGuidedTechniqueForm(steps, currentStep);
+
+  const handleNext = () => {
+    if (hasValidInputs()) {
+      onNext();
+    }
+  };
 
   const handleFeedbackSubmit = (feedback) => {
     if (onFeedbackSubmit) {
       onFeedbackSubmit(feedback);
     }
-    onReturnToSpinner();
+  };
+
+  const handleReset = () => {
+    resetForm();
+    navigate(`/techniques/${technique.id}`, { replace: true });
   };
 
   const renderContent = () => {
@@ -50,14 +57,14 @@ const BaseTechnique = ({
     if (isComplete) {
       return (
         renderCustomSummary?.({
-          resetForm,
+          resetForm: handleReset,
           showFeedbackOption,
           onShowFeedback: () => setShowFeedback(true),
         }) || (
-          <div className="text-center">
-            <h3 className="text-xl font-serif mb-4">Exercise Complete!</h3>
-            <div className="flex justify-center gap-4">
-              <Button onClick={resetForm}>Start Over</Button>
+          <div className="text-center space-y-6">
+            <h3 className="text-xl font-serif">Exercise Complete!</h3>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Button onClick={handleReset}>Start Over</Button>
               {showFeedbackOption && (
                 <Button variant="lime" onClick={() => setShowFeedback(true)}>
                   Share Feedback
@@ -72,39 +79,30 @@ const BaseTechnique = ({
       );
     }
 
-    if (renderCustomProgress) {
-      return renderCustomProgress({
+    return (
+      renderCustomProgress?.({
         inputs,
         handleInputChange,
         handleNext,
         currentStep,
         hasValidInputs,
-      });
-    }
-
-    return (
-      <Progress
-        step={steps[currentStep]}
-        currentStep={currentStep}
-        totalSteps={steps.length}
-        inputs={inputs[currentStep]}
-        onInputChange={handleInputChange}
-        onNext={handleNext}
-        hasValidInputs={hasValidInputs}
-      />
+      }) || (
+        <Progress
+          step={steps[currentStep]}
+          currentStep={currentStep}
+          totalSteps={steps.length}
+          inputs={inputs[currentStep]}
+          onInputChange={handleInputChange}
+          onNext={handleNext}
+          hasValidInputs={hasValidInputs}
+        />
+      )
     );
   };
 
   return (
-    <div
-      className="relative flex flex-col rounded-lg p-3 sm:p-4 max-h-[90vh] overflow-hidden"
-    >
-      {/* Add max-width to prevent too wide content on large screens */}
-      <div
-        className="relative flex-1 overflow-y-auto max-w-2xl mx-auto w-full"
-      >
-        {renderContent()}
-      </div>
+    <div className="flex flex-col min-h-[calc(100vh-4rem)]">
+      <div className="flex-1">{renderContent()}</div>
     </div>
   );
 };

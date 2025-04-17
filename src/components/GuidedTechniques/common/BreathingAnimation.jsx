@@ -79,9 +79,9 @@ export const BreathingAnimation = ({ cycles = 3, onComplete }) => {
       <div className="relative flex flex-col items-center justify-center w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64">
         <div
           className="w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full
-            bg-gradient-to-br from-yellow-200 to-yellow-50
-            shadow-[inset_0_2px_8px_rgba(0,0,0,0.15)]
-            transition-transform duration-100"
+              bg-gradient-to-br from-yellow-200 to-yellow-50
+              shadow-[inset_0_2px_8px_rgba(0,0,0,0.15)]
+              transition-transform duration-100"
           style={{ transform: `scale(${getScale()})` }}
         />
         <div className="absolute text-3xl sm:text-4xl font-bold text-gray-600">

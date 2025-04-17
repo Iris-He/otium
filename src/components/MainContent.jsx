@@ -3,7 +3,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import Spinner from "./Spinner/Spinner";
-import TechniqueCard from "./TechniqueCard/TechniqueCard";
+import TechniquePreview from "./TechniqueCard/TechniquePreview";
 import UserInsights from "./Insights/UserInsights";
 import { useTechniqueSelection } from "../hooks/useTechniqueSelection";
 import {
@@ -33,8 +33,6 @@ const MainContent = () => {
     selectedTechnique,
     setSelectedTechnique,
     rotationDegree,
-    showCard,
-    setShowCard,
     dropdownValue,
     setDropdownValue,
     handleSpin,
@@ -60,11 +58,28 @@ const MainContent = () => {
     }
   };
 
+  const [showPreview, setShowPreview] = useState(false);
+
   const handleSelectTechnique = (technique) => {
     if (!technique) return;
 
     setSelectedTechnique(technique);
-    setShowCard(true);
+    setShowPreview(true);
+  };
+
+  // Show preview when selectedTechnique changes (after spinning)
+  useEffect(() => {
+    if (selectedTechnique && !spinning) {
+      setShowPreview(true);
+    } else if (spinning) {
+      // Hide preview during spinning animation
+      setShowPreview(false);
+    }
+  }, [selectedTechnique, spinning]);
+
+  const handleClosePreview = () => {
+    setShowPreview(false);
+    setSelectedTechnique(null);
   };
 
   return (
@@ -87,13 +102,14 @@ const MainContent = () => {
             </div>
           </div>
 
-          {/* Technique Card */}
-          <TechniqueCard
-            technique={selectedTechnique}
-            onNewTechnique={handleNewTechnique}
-            onReturnToSpinner={handleReturnToSpinner}
-            visible={showCard}
-          />
+          {/* Technique Preview */}
+          {showPreview && selectedTechnique && (
+            <TechniquePreview
+              technique={selectedTechnique}
+              onNewTechnique={handleNewTechnique}
+              onClose={handleClosePreview}
+            />
+          )}
 
           {/* Insights Modal */}
           {showInsights && (
@@ -108,11 +124,9 @@ const MainContent = () => {
       </main>
 
       {/* Footer */}
-      {!showCard && (
-        <div className="mt-auto">
-          <Footer onViewInsights={handleViewInsights} />
-        </div>
-      )}
+      <div className="mt-auto">
+        <Footer onViewInsights={handleViewInsights} />
+      </div>
     </div>
   );
 };

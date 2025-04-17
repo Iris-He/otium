@@ -22,11 +22,11 @@ export const CountdownTimer = ({ totalSeconds, onComplete }) => {
   const seconds = timeLeft % 60;
 
   return (
-    <div className="text-center space-y-4">
+    <div className="text-center space-y-8 flex flex-col justify-center min-h-[50vh]">
       <h3 className="text-xl font-serif text-gray-800">
         Focus on your meaningful object
       </h3>
-      <div className="text-4xl font-bold text-gray-700">
+      <div className="text-6xl font-bold text-gray-700">
         {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
       </div>
       <p className="text-sm text-gray-500">
