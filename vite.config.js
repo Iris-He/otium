@@ -64,4 +64,7 @@ export default defineConfig({
     sourcemap: true,
   },
   envDir: ".",
+  workbox: {
+    navigateFallback: "/index.html",
+  },
 });
