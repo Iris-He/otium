@@ -68,53 +68,51 @@ const MainContent = () => {
   };
 
   return (
-    <div className="min-h-[calc(100dvh-var(--safe-area-inset-top)-var(--safe-area-inset-bottom)] flex flex-col">
+    <div className="min-h-[100dvh] flex flex-col">
       <Header onSignOut={handleSignOut} />
-      <div className="flex-1 flex flex-col">
-        <main className="flex-1 container mx-auto px-4 flex flex-col">
-          {/* Adjust vertical spacing based on screen size */}
-          <div className="flex-1 flex flex-col justify-center gap-4 sm:gap-8 py-2 sm:py-8">
-            {/* Spinner Section - reduce size on mobile */}
-            <div className="spinner-container flex items-center justify-center">
-              <div className="w-[85%] sm:w-full max-w-md">
-                <Spinner
-                  onSpin={handleSpin}
-                  rotationDegree={rotationDegree}
-                  spinning={spinning}
-                  onSelectTechnique={handleSelectTechnique}
-                  dropdownValue={dropdownValue}
-                  setDropdownValue={setDropdownValue}
-                />
-              </div>
-            </div>
-
-            {/* Technique Card */}
-            <TechniqueCard
-              technique={selectedTechnique}
-              onNewTechnique={handleNewTechnique}
-              onReturnToSpinner={handleReturnToSpinner}
-              visible={showCard}
-            />
-
-            {/* Insights Modal */}
-            {showInsights && (
-              <UserInsights
-                insights={insightsData}
-                onClose={() => setShowInsights(false)}
-                isLoading={isLoadingInsights}
-                userId={user?.id}
+      <main className="flex-1 container mx-auto px-4 flex flex-col">
+        {/* Spinner and Card Section */}
+        <div className="flex-1 flex flex-col justify-center gap-4 sm:gap-8 py-2 sm:py-8">
+          {/* Spinner Section */}
+          <div className="spinner-container flex items-center justify-center">
+            <div className="w-[85%] sm:w-full max-w-md">
+              <Spinner
+                onSpin={handleSpin}
+                rotationDegree={rotationDegree}
+                spinning={spinning}
+                onSelectTechnique={handleSelectTechnique}
+                dropdownValue={dropdownValue}
+                setDropdownValue={setDropdownValue}
               />
-            )}
+            </div>
           </div>
-        </main>
 
-        {/* Reduce footer padding on mobile */}
-        {!showCard && (
-          <footer className="py-2 sm:py-4 mt-auto">
-            <Footer onViewInsights={handleViewInsights} />
-          </footer>
-        )}
-      </div>
+          {/* Technique Card */}
+          <TechniqueCard
+            technique={selectedTechnique}
+            onNewTechnique={handleNewTechnique}
+            onReturnToSpinner={handleReturnToSpinner}
+            visible={showCard}
+          />
+
+          {/* Insights Modal */}
+          {showInsights && (
+            <UserInsights
+              insights={insightsData}
+              onClose={() => setShowInsights(false)}
+              isLoading={isLoadingInsights}
+              userId={user?.id}
+            />
+          )}
+        </div>
+      </main>
+
+      {/* Footer */}
+      {!showCard && (
+        <div className="mt-auto">
+          <Footer onViewInsights={handleViewInsights} />
+        </div>
+      )}
     </div>
   );
 };

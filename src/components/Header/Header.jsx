@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { HiOutlineLogin } from "react-icons/hi";
+import { GoShare } from "react-icons/go";
 import UserMenu from "./UserMenu";
 
 const Header = ({ onSignOut }) => {
@@ -10,11 +11,21 @@ const Header = ({ onSignOut }) => {
   const [showIOSInstructions, setShowIOSInstructions] = useState(false);
 
   useEffect(() => {
+    // Check if app is already installed
+    const isInstalled =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true;
+
     // Detect platform
     const isIOSDevice =
       /iPad|iPhone|iPod/.test(navigator.userAgent) ||
       (navigator.userAgent.includes("Mac") && "ontouchend" in document);
     setIsIOS(isIOSDevice);
+
+    if (isInstalled) {
+      setShowInstallButton(false);
+      return;
+    }
 
     // Handle Android install prompt
     const handler = (e) => {
@@ -27,9 +38,22 @@ const Header = ({ onSignOut }) => {
       window.addEventListener("beforeinstallprompt", handler);
       return () => window.removeEventListener("beforeinstallprompt", handler);
     } else {
-      // Show install button for iOS by default
+      // Show install button for iOS only if not installed
       setShowInstallButton(true);
     }
+  }, []);
+
+  // Add listener for display mode changes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(display-mode: standalone)");
+    const handleDisplayModeChange = (e) => {
+      if (e.matches) {
+        setShowInstallButton(false);
+      }
+    };
+
+    mediaQuery.addListener(handleDisplayModeChange);
+    return () => mediaQuery.removeListener(handleDisplayModeChange);
   }, []);
 
   const handleInstallClick = async () => {
@@ -83,7 +107,12 @@ const Header = ({ onSignOut }) => {
                     <div className="text-gray-700 mb-4">
                       To install this app:
                       <ol className="list-decimal pl-5 mt-2 space-y-2">
-                        <li>Tap the Share button</li>
+                        <li>Open the app in Safari</li>
+                        <li>
+                          Tap the{" "}
+                          <GoShare className="inline-block h-4 w-4 align-text-bottom" />{" "}
+                          button
+                        </li>
                         <li>Select "Add to Home Screen"</li>
                         <li>Confirm by tapping "Add"</li>
                       </ol>
