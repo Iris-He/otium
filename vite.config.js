@@ -49,6 +49,25 @@ export default defineConfig({
           },
         ],
       },
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
+        cleanupOutdatedCaches: true,
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,json,woff2}"],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/your-site\.netlify\.app\/.*/i,
+            handler: "StaleWhileRevalidate",
+            options: {
+              cacheName: "site-cache",
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60, // 1 hour
+              },
+            },
+          },
+        ],
+      },
     }),
   ],
   server: {

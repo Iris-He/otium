@@ -24,10 +24,11 @@ export const BreathingAnimation = ({ cycles = 3, onComplete }) => {
     return PHASES[newPhase].duration;
   };
 
-  // Use tick sound
-  useTickSound(isActive && timeLeft > 0);
+  // Sound management
+  const { playTick } = useTickSound();
+  const lastTickRef = useRef(0);
 
-  // Handle animation and phase changes
+  // Handle animation and sound
   useEffect(() => {
     if (currentCycle >= cycles) {
       setIsActive(false);
@@ -37,7 +38,20 @@ export const BreathingAnimation = ({ cycles = 3, onComplete }) => {
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
-        if (prev <= 0) {
+        const newTime = prev - 100;
+
+        // Calculate elapsed time in current phase
+        const phaseDuration = PHASES[phase].duration;
+        const elapsed = phaseDuration - newTime;
+
+        // Play tick every 1000ms relative to phase start
+        if (elapsed - lastTickRef.current >= 1000) {
+          playTick();
+          lastTickRef.current = elapsed;
+        }
+
+        if (newTime <= 0) {
+          lastTickRef.current = 0; // Reset tick counter for new phase
           switch (phase) {
             case "INHALE":
               return switchPhase("HOLD");
@@ -50,7 +64,7 @@ export const BreathingAnimation = ({ cycles = 3, onComplete }) => {
               return 0;
           }
         }
-        return prev - 100;
+        return newTime;
       });
     }, 100);
 
