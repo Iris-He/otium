@@ -11,7 +11,12 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error("Missing Supabase environment variables");
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true,
+    storage: window.localStorage,
+  },
+});
 
 // Favorite techniques functions
 export const saveFavoriteTechnique = async (
@@ -109,13 +114,12 @@ export const saveTechniqueUsage = async ({
         anxiety_context: anxietyContext || null,
         day_of_week: dayOfWeek,
         time_of_day: timeOfDay,
-        created_at: now.toISOString(), // Ensure proper ISO string format
+        created_at: now.toISOString(),
       },
     ])
     .select();
 
   if (error) {
-    console.error("Error saving technique usage:", error);
     throw error;
   }
 

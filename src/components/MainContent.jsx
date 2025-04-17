@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
@@ -12,9 +12,22 @@ import {
   getUserInsights,
   getFavoriteTechniques,
 } from "../lib/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 const MainContent = () => {
   const { user, handleSignOut } = useAuthContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
+
+  if (!user) {
+    return null;
+  }
+
   const {
     spinning,
     selectedTechnique,
