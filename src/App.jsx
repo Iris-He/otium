@@ -30,8 +30,13 @@ function App() {
       window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     }
 
-    // Show install prompt if not standalone and not already prompted
-    if ((isIOSDevice || isAndroid) && !isStandalone && !alreadyPrompted) {
+    // Show install prompt if not standalone, not already prompted, and not in PWA mode
+    if (
+      (isIOSDevice || isAndroid) &&
+      !isStandalone &&
+      !alreadyPrompted &&
+      !window.matchMedia("(display-mode: standalone)").matches
+    ) {
       const timer = setTimeout(() => {
         setShowInstallPrompt(true);
       }, 5000);
@@ -60,6 +65,8 @@ function App() {
   };
   return (
     <Router>
+      {/* Status bar spacer for iOS */}
+      <div className="fixed top-0 left-0 right-0 h-[env(safe-area-inset-top)] bg-white/60 z-50"></div>
       <AuthProvider>
         <Toaster
           position="top-center"

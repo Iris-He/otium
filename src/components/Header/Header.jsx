@@ -14,7 +14,7 @@ const Header = ({ onSignOut }) => {
   const showUserMenu = user && !user.isGuest;
 
   return (
-    <header className="mb-8 px-4">
+    <header className="mb-8 px-4 pt-[env(safe-area-inset-top)]">
       <div className="flex flex-row flex-wrap justify-between items-center mb-4 relative gap-2">
         <div className="flex-shrink-0">
           {user && (
