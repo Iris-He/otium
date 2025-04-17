@@ -4,7 +4,10 @@ import BackgroundWithLemons from "./BackgroundWithLemons";
 
 const Modal = ({ onClose, children }) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+    <div
+      className="fixed inset-0 flex items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto"
+      style={{ height: "100%" }}
+    >
       <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl relative max-h-[85vh] overflow-y-auto">
         <BackgroundWithLemons className="rounded-lg shadow-xl">
           <div className="relative p-2 sm:p-4 z-50">

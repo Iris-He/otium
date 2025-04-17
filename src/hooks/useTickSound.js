@@ -5,15 +5,21 @@ export const useTickSound = (isActive) => {
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    if (isActive) {
-      // Play initial tick
-      createTickSound();
-
-      // Set up interval for subsequent ticks
-      intervalRef.current = setInterval(() => {
-        createTickSound();
-      }, 1000);
+    if (!isActive) {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      return;
     }
+
+    // Play initial tick
+    createTickSound();
+
+    // Set up interval for subsequent ticks - exactly 1000ms
+    intervalRef.current = setInterval(() => {
+      createTickSound();
+    }, 1000);
 
     return () => {
       if (intervalRef.current) {
@@ -23,12 +29,12 @@ export const useTickSound = (isActive) => {
     };
   }, [isActive]);
 
-  const stopTicks = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
+  return {
+    stopTicks: () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    },
   };
-
-  return { stopTicks };
 };

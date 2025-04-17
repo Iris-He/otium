@@ -96,9 +96,15 @@ const BaseTechnique = ({
   };
 
   return (
-    <div className="relative flex flex-col rounded-lg p-3 sm:p-4 max-h-[90vh] overflow-hidden">
+    <div
+      className="relative flex flex-col rounded-lg p-3 sm:p-4 max-h-[90vh] overflow-hidden"
+      style={{ position: "relative", height: "auto" }}
+    >
       {/* Add max-width to prevent too wide content on large screens */}
-      <div className="relative flex-1 overflow-y-auto max-w-2xl mx-auto w-full">
+      <div
+        className="relative flex-1 overflow-y-auto max-w-2xl mx-auto w-full"
+        style={{ position: "relative" }}
+      >
         {renderContent()}
       </div>
     </div>

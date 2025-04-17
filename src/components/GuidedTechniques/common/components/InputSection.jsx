@@ -8,6 +8,7 @@ const InputSection = ({ step, inputs, onInputChange }) => {
         onChange={(e) => onInputChange(0, e.target.value)}
         placeholder={step.placeholder}
         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 min-h-[100px]"
+        style={{ position: "relative" }}
       />
     );
   }
@@ -26,6 +27,7 @@ const InputSection = ({ step, inputs, onInputChange }) => {
               step.inputSuffix || ""
             }`}
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            style={{ position: "relative" }}
           />
         ))}
     </div>

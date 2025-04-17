@@ -113,7 +113,7 @@ const Header = ({ onSignOut }) => {
                           <GoShare className="inline-block h-4 w-4 align-text-bottom" />{" "}
                           button
                         </li>
-                        <li>Select "Add to Home Screen"</li>
+                        <li>Scroll to select "Add to Home Screen"</li>
                         <li>Confirm by tapping "Add"</li>
                       </ol>
                     </div>

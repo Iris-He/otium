@@ -19,6 +19,7 @@ export const ItemInput = ({
         onChange={onInputChange} // Remove the arrow function wrapper
         placeholder={placeholder}
         className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 min-w-0"
+        style={{ position: "relative" }}
       />
       <Button
         type="submit"

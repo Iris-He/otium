@@ -18,7 +18,7 @@ const InputCollectionProgress = ({
   const descriptions = Array.isArray(description) ? description : [description];
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full" style={{ position: "relative" }}>
       {/* Header section */}
       <div className="text-center space-y-3 mb-4">
         <h2 className="text-xl sm:text-2xl font-serif text-gray-800">
@@ -39,7 +39,10 @@ const InputCollectionProgress = ({
       </div>
 
       {/* Fixed bottom section with input and buttons */}
-      <div className="mt-auto space-y-3">
+      <div
+        className="mt-auto space-y-3"
+        style={{ position: "relative", zIndex: 10 }}
+      >
         <form onSubmit={onSubmit} className="flex gap-2">
           <input
             type="text"

@@ -125,6 +125,7 @@ const TechniqueFeedback = ({ onSubmit, onSkip, techniqueId, technique }) => {
           placeholder="Any additional feedback? (optional)"
           value={anxietyContext}
           onChange={(e) => setAnxietyContext(e.target.value)}
+          style={{ position: "relative" }}
         />
 
         <div className="flex gap-2 mt-2">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useTickSound } from "../../../hooks/useTickSound";
 
 const PHASES = {
@@ -18,36 +18,14 @@ export const BreathingAnimation = ({ cycles = 3, onComplete }) => {
   const [phase, setPhase] = useState("INHALE");
   const [timeLeft, setTimeLeft] = useState(PHASES.INHALE.duration);
   const [isActive, setIsActive] = useState(true);
-  const lastTickTime = useRef(null);
 
   const switchPhase = (newPhase) => {
     setPhase(newPhase);
     return PHASES[newPhase].duration;
   };
 
-  // Handle ticking sound separately from animation updates
-  useEffect(() => {
-    if (!isActive) return;
-
-    const now = Date.now();
-    if (!lastTickTime.current) {
-      lastTickTime.current = now;
-    }
-
-    const timer = setInterval(() => {
-      const currentTime = Date.now();
-      if (currentTime - lastTickTime.current >= 1000) {
-        lastTickTime.current = currentTime;
-        setIsActive(true); // Ensure tick sound plays
-      }
-    }, 100);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [isActive]);
-
-  useTickSound(isActive);
+  // Use tick sound
+  useTickSound(isActive && timeLeft > 0);
 
   // Handle animation and phase changes
   useEffect(() => {
