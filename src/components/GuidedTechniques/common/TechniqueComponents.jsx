@@ -18,7 +18,6 @@ export const InputFields = ({ step, inputs, onInputChange }) => {
               step.inputSuffix || ""
             }`}
             className="w-full p-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            style={{ position: "relative" }}
           />
         ))}
     </div>
