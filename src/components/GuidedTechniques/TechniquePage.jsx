@@ -89,7 +89,7 @@ const TechniquePage = () => {
 
   return (
     <PageTransition>
-      <div className="flex flex-col min-h-[100dvh] bg-white">
+      <div className="flex flex-col min-h-[100dvh] bg-white overflow-hidden">
         {/* Status bar spacer for iOS/Android notch */}
         <div className="fixed top-0 left-0 right-0 h-[env(safe-area-inset-top)] bg-white z-50"></div>
 
@@ -116,7 +116,7 @@ const TechniquePage = () => {
         </header>
 
         {/* Scrollable Content - adjusted for safe areas */}
-        <main className="flex-1 container mx-auto px-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pb-[env(safe-area-inset-bottom)] py-4 relative">
+        <main className="flex-1 container mx-auto px-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pb-[env(safe-area-inset-bottom)] py-4 relative overflow-y-auto">
           <Suspense
             fallback={
               <div className="absolute inset-0 flex items-center justify-center">
